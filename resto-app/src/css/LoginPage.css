@@ -1,0 +1,106 @@
+
+    /*Login page style*/
+    .modal {
+        border-radius: 20px 20px 0px 0px;
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        padding-top: 20px;
+        height: 750px;
+        width: 100%;
+        background-image: url(../assets/slide2.jpg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 100%; /* <-- Key line to prevent zooming */
+    }
+        
+    .loginmodal-content {
+        background-color: rgba(255, 255, 255, 0.2);
+        margin:  auto;
+        height: 550px;
+        padding: 20px;
+        width: 90%;
+        max-width: 450px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0,0,0,0.3);
+        animation: fade 0.3s ease-in-out;
+        backdrop-filter: blur(8px);
+        box-sizing: border-box;
+    }
+    
+    .loginmodal-content h2 {
+        text-align: center;
+        color: white;
+        font-size: 30px;
+    }
+    
+    .loginmodal-content input {
+        width: 100%;
+        padding: 10px;
+        margin: 8px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 12px;
+        box-sizing: border-box;
+    }
+    
+    .loginmodal-content button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 20px;
+        background-color: #000000;
+        border: none;
+        color: white;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    .loginmodal-content button:hover {
+        background-color: #0352c9;
+    }
+
+    /*Forgot Password*/
+    .forgotpassword{
+        text-align: right;
+        margin-right: 10px;
+        margin-top: 20px; 
+        margin-bottom: 20px;
+        font-size: 16px;
+    }
+
+
+    .loginmodal-content p {
+        margin-top: 25px;
+        color: white;
+        text-align: center;
+    }
+
+    .loginmodal-content a {
+        color: #000;
+        text-decoration: none;
+        font-weight: bold;
+    }
+    .loginmodal-content a:hover{
+        color: #0352c9;
+    }
+
+
+    .role-label {
+        margin-top: 15px;
+        display: block;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .role-select {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+        background-color: #fff;
+    }
+

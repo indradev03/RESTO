@@ -1,0 +1,131 @@
+    
+    /* Menu */
+    .Menu {
+        padding: 30px 20px;
+        text-align: center;
+    }
+    
+    .First-title{
+        margin: 0%;
+        color: #e52b34;
+        font-family: Dancing Script, cursive ;
+        font-size: 40px ;
+        text-align: center;
+    }
+    .Second-title{
+        margin: 0%;
+        color: #000000;
+        font-size: 40px ;
+        text-align: center;
+    }
+    .Menucontainer {
+        margin-top: 10px;
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+    }
+    
+    .Menu-card {
+        background-color: #fff;
+        border-radius: 10px;
+        padding: 20px;
+        width: 400px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .Menu-Item {
+        display: flex;
+        gap: 15px;
+        margin-top: 15px;
+        align-items: center;
+    }
+    
+    .Menu-Item img {
+        width: 60px;
+        height: 60px;
+        border-radius: 5px;
+    }
+    
+    .Menu-Title {
+        font-weight: bold;
+    }
+    
+
+    .container1, .container2, .container3 {
+        
+        background-color: rgb(255, 255, 255);
+        border-radius: 4px;
+        border-width: 1px;
+        box-shadow: 0px 4px 8px rgba(252, 142, 74, 0.689);
+        overflow: hidden;
+        border-image: initial;
+    }
+    .foodname{
+        margin: 0px;
+        font-family: Roboto, Helvetica, Arial, sans-serif;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 1.6;
+    }
+    .Menu-Title{
+        border-bottom: 1px dashed #0000007e;
+        text-align: left;
+    }
+
+    .Discription{
+        margin: 10px 0px 0px;
+        font-family: Roboto, Helvetica, Arial, sans-serif;
+        font-size: 10px;
+        line-height: 1.5;
+        color: gray;
+        text-align: left;
+    }
+    .Menu-Item:last-child {
+        border: none;
+    }
+
+        /*Menu button*/
+
+        .Viewmenu {
+            display: block;
+            margin: 30px auto 0 auto;
+            padding: 12px 28px;
+            background-color: #000000;
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease;
+            text-align: center;
+        }
+
+
+        .Viewmenu a{
+            text-decoration: none;
+            color: #fff9f9;
+        }
+        
+        .Viewmenu:hover {
+            background-color: #e5533d; 
+        }
+    
+
+        
+    /* Tablet View: ≤768px */
+    @media (max-width: 800px) {
+
+        .Viewmenu button{
+            width: 60%;
+        }
+    }
+
+        /* Phone View: ≤480px */
+    @media (max-width: 480px) {
+
+        .Viewmenu button {
+            width: 60%;
+        }
+    }
+
