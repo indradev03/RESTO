@@ -14,13 +14,19 @@ import Jobs from './public/pages/Jobs';
 import Contact from './public/pages/Contact';
 import Menu from './public/pages/Menu';
 
-import LoginPage from './public/pages/LoginPage';
-import SignupPage from './public/pages/SignupPage';
-import ForgotPassword from './public/pages/ForgotPassword';
+// import LoginPage from './public/pages/LoginPage';
+// import SignupPage from './public/pages/SignupPage';
+// import ForgotPassword from './public/pages/ForgotPassword';
 import StepsForBooking from './public/pages/StepsForBooking';
 
-import AdminDashboard from './public/pages/AdminDashboard';   // ✅ Import AdminDashboard
-import UserDashboard from './public/pages/UserDashboard';     // ✅ Import UserDashboard
+import AdminDashboard from './public/pages/AdminDashboard';   
+import UserDashboard from './public/pages/UserDashboard';     
+
+import TableBooking from './public/pages/TableBooking';
+import BookingProcessPage from "./public/pages/BookingProcessPage"; 
+
+import BookingPage from './public/pages/BookingPage';
+import AuthPage from './public/pages/AuthPage';
 
 // Home section (used on "/")
 const Home = () => (
@@ -48,7 +54,7 @@ const Layout = ({ children }) => {
 
 const App = () => {
   return (
-    <Router>
+
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -57,15 +63,19 @@ const App = () => {
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/menu" element={<Menu />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/forgotpassword" element={<ForgotPassword />} />
+          <Route path="/booking" element={<BookingPage />} />  
+          {/* <Route path="/login" element={<LoginPage />} />        */}
+          <Route path="/login" element={<AuthPage />} />
+          {/* <Route path="/signup" element={<SignupPage />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} /> */}
           <Route path="/stepsforbooking" element={<StepsForBooking />} />
-          <Route path="/admin" element={<AdminDashboard />} />      {/* Admin Dashboard */}
-          <Route path="/user" element={<UserDashboard />} />        {/* User Dashboard */}
+          <Route path="/admin" element={<AdminDashboard />} />      
+          <Route path="/user" element={<UserDashboard />} />       
+          <Route path='/tables' element ={ <TableBooking/> } />
+          <Route path="/book/:tableId" element={<BookingProcessPage />} />
         </Routes>
       </Layout>
-    </Router>
+
   );
 };
 

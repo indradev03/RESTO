@@ -16,6 +16,7 @@ const Header = () => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userEmail, setUserEmail] = useState('');
+    const [hasNewBooking, setHasNewBooking] = useState(false);
     const popupRef = useRef(null);
     const menuButtonRef = useRef(null);
     const navigate = useNavigate();
@@ -24,15 +25,36 @@ const Header = () => {
         setIsPopupOpen(!isPopupOpen);
     };
 
+    // Effect to load login info and initial booking status
     useEffect(() => {
         const role = sessionStorage.getItem('role');
         const email = sessionStorage.getItem('email');
+
         if (role) {
             setIsLoggedIn(true);
             setUserEmail(email || '');
         }
     }, []);
 
+    // Listen for booking status changes via custom event
+    useEffect(() => {
+        const updateBookingStatus = () => {
+            const bookingFlag = sessionStorage.getItem('hasNewBooking') === 'true';
+            setHasNewBooking(bookingFlag);
+        };
+
+        // Initial check on mount
+        updateBookingStatus();
+
+        // Listen to custom event dispatched elsewhere in app
+        window.addEventListener('bookingStatusChanged', updateBookingStatus);
+
+        return () => {
+            window.removeEventListener('bookingStatusChanged', updateBookingStatus);
+        };
+    }, []);
+
+    // Close popup when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (
@@ -59,6 +81,14 @@ const Header = () => {
         navigate('/login');
     };
 
+    const handleBookingClick = () => {
+        setHasNewBooking(false);
+        sessionStorage.setItem('hasNewBooking', 'false');
+        // Dispatch event so other components update
+        window.dispatchEvent(new Event('bookingStatusChanged'));
+        navigate('/booking');
+    };
+
     return (
         <div className="header-wrapper">
             <header className="MultiAppbar">
@@ -75,21 +105,24 @@ const Header = () => {
                         <li><Link to="/SpecialOffers">Special Offers</Link></li>
                         <li><Link to="/Jobs">Jobs</Link></li>
                         <li><Link to="/Contact">Contact Us</Link></li>
+                        <li><Link to="/menu">Menu</Link></li>
+                        <li><Link to="/tables">Tables</Link></li>
                     </ul>
                 </nav>
 
                 {!isLoggedIn && (
                     <div className="auth-buttons">
                         <button className="login-btn" onClick={() => navigate('/login')}>Login</button>
-                        <button className="signup-btn" onClick={() => navigate('/signup')}>Sign Up</button>
                     </div>
                 )}
 
                 <div className="header-icons">
-                    <button>
-                        <img src={checkoutIcon} alt="Order Icon" />
+                    <button onClick={handleBookingClick} className="booking-icon-button" aria-label="Booking">
+                        <img src={checkoutIcon} alt="Booking Icon" />
+                        {hasNewBooking && <span className="notification-badge"></span>}
                     </button>
-                    <button id="menuButton" ref={menuButtonRef} onClick={togglePopup}>
+
+                    <button id="menuButton" ref={menuButtonRef} onClick={togglePopup} aria-label="Menu">
                         <img src={menuIcon} alt="More Icon" />
                     </button>
 

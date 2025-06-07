@@ -60,6 +60,24 @@ nav ul li a {
     width: 35px;
     height: 35px;
 }
+.booking-icon-button {
+  position: relative;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 10px;
+  height: 10px;
+  background: red;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
 
 /*=================== AUTH BUTTONS ===================*/
 .auth-buttons {
@@ -68,26 +86,24 @@ nav ul li a {
 }
 .auth-buttons button {
     padding: 8px 16px;
-    font-size: 16px;
+    font-size: 20px;
     border: none;
-    border-radius: 20px;
     cursor: pointer;
     font-weight: bold;
     font-family: 'Times New Roman', Times, serif;
     transition: transform 0.2s ease;
+    background: none;
 }
-.auth-buttons .login-btn,
-.auth-buttons .signup-btn {
-    background-color: #5a5959;
-    color: #fff;
+.auth-buttons .login-btn {
+    color: #000000;
 }
 .auth-buttons button.active-btn {
     background-color: #000;
     color: #fff;
 }
 .auth-buttons button:hover {
-    background-color: #0091ff;
-    color: white;
+    color: rgb(4, 109, 255);
+    
     transform: scale(1.05);
 }
 
