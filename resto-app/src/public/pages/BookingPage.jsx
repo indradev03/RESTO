@@ -5,7 +5,7 @@ import '../../css/BookingPage.css';
 
 const BookingPage = () => {
   const navigate = useNavigate();
-  const email = sessionStorage.getItem('email');
+  const email = localStorage.getItem('email');
 
   const [bookings, setBookings] = useState([]);
 

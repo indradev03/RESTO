@@ -219,6 +219,11 @@
     text-decoration: underline;
     color: #0077cc;
     }
+    .success {
+        color: green;
+        margin-top: 10px;
+        font-weight: bold;
+    }
 
     /* Responsive */
     @media (max-width: 768px) {

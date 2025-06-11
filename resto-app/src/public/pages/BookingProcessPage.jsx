@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../../css/BookingProcessPage.css'; // Optional for styling
 
@@ -14,11 +14,17 @@ const BookingProcessPage = () => {
   });
 
   const [submitted, setSubmitted] = useState(false);
-sessionStorage.setItem('hasNewBooking', 'true');
-// Notify other components that booking status changed
-window.dispatchEvent(new Event('bookingStatusChanged'));
 
-
+  // 🔒 Check if user is logged in
+  useEffect(() => {
+    const email = localStorage.getItem('email');
+    if (!email) {
+      navigate('/login'); // Redirect to login if not logged in
+    } else {
+      localStorage.setItem('hasNewBooking', 'true'); // Notify header
+      window.dispatchEvent(new Event('bookingStatusChanged'));
+    }
+  }, [navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,22 +34,23 @@ window.dispatchEvent(new Event('bookingStatusChanged'));
     }));
   };
 
-// Inside handleSubmit in BookingProcessPage.jsx
-const handleSubmit = (e) => {
-  e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  const newBooking = { tableId, ...formData };
+    const newBooking = { tableId, ...formData };
 
-  const existing = JSON.parse(localStorage.getItem('latestBooking')) || [];
-  const updatedBookings = Array.isArray(existing) ? [...existing, newBooking] : [existing, newBooking];
+    const existing = JSON.parse(localStorage.getItem('latestBooking')) || [];
+    const updatedBookings = Array.isArray(existing)
+      ? [...existing, newBooking]
+      : [existing, newBooking];
 
-  localStorage.setItem('latestBooking', JSON.stringify(updatedBookings));
-  setSubmitted(true);
+    localStorage.setItem('latestBooking', JSON.stringify(updatedBookings));
+    setSubmitted(true);
 
-  setTimeout(() => {
-    navigate('/booking'); // Redirect to BookingPage
-  }, 3000);
-};
+    setTimeout(() => {
+      navigate('/booking');
+    }, 3000);
+  };
 
   return (
     <div className="booking-process">

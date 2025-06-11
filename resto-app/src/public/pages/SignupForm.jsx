@@ -1,67 +1,104 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import '../../css/AuthPage.css';
 
-const SignupForm = ({
-  name,
-  email,
-  password,
-  confirmPassword,
-  setName,
-  setEmail,
-  setPassword,
-  setConfirmPassword,
-  setView,
-  setError,
-  error,
-}) => {
+const SignupForm = ({ setView, setError, error }) => {
   const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    setError: setFormError,
+    clearErrors,
+  } = useForm();
 
-  // States to toggle password visibility for both fields
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [success, setSuccess] = useState(''); // ✅ For success message
 
-  const handleSignup = (e) => {
-    e.preventDefault();
-    if (password !== confirmPassword) {
+  const password = watch('password', '');
+
+  const onSubmit = (data) => {
+    clearErrors('confirmPassword');
+    setSuccess('');
+    setError('');
+
+    if (data.password !== data.confirmPassword) {
+      setFormError('confirmPassword', {
+        type: 'manual',
+        message: 'Passwords do not match',
+      });
       setError('Passwords do not match');
       return;
     }
-    console.log('Signup data:', { name, email, password });
-    navigate('/login');
+
+    const newUser = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      role: 'user', // default role
+    };
+
+    const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
+
+    const userExists = existingUsers.some(user => user.email === data.email);
+    if (userExists) {
+      setError('Email already registered');
+      return;
+    }
+
+    existingUsers.push(newUser);
+    localStorage.setItem('users', JSON.stringify(existingUsers));
+
+    setSuccess('Account created successfully');
+    setError('');
+
+    setTimeout(() => {
+      setView('login');
+    }, 1000);
   };
 
   return (
     <>
       <h2>Create Account</h2>
-      <form onSubmit={handleSignup} noValidate>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <label htmlFor="signup-name">Name:</label>
         <input
           id="signup-name"
           type="text"
-          required
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          {...register('name', { required: 'Name is required' })}
         />
+        {errors.name && <p className="error">{errors.name.message}</p>}
 
         <label htmlFor="signup-email">Email:</label>
         <input
           id="signup-email"
           type="email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          {...register('email', {
+            required: 'Email is required',
+            pattern: {
+              value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+              message: 'Invalid email address',
+            },
+          })}
         />
+        {errors.email && <p className="error">{errors.email.message}</p>}
 
         <label htmlFor="signup-password">Password:</label>
         <div className="password-input-container">
           <input
             id="signup-password"
             type={showPassword ? 'text' : 'password'}
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            {...register('password', {
+              required: 'Password is required',
+              minLength: {
+                value: 8,
+                message: 'Password must be at least 6 characters',
+              },
+            })}
           />
           <span
             className="toggle-password-icon"
@@ -76,18 +113,21 @@ const SignupForm = ({
               }
             }}
           >
-            {showPassword ? <FiEyeOff /> : <FiEye />}
+            {showPassword ? <FiEye /> : <FiEyeOff />}
           </span>
         </div>
+        {errors.password && <p className="error">{errors.password.message}</p>}
 
         <label htmlFor="signup-confirm-password">Confirm Password:</label>
         <div className="password-input-container">
           <input
             id="signup-confirm-password"
             type={showConfirmPassword ? 'text' : 'password'}
-            required
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            {...register('confirmPassword', {
+              required: 'Please confirm your password',
+              validate: (value) =>
+                value === password || 'Passwords do not match',
+            })}
           />
           <span
             className="toggle-password-icon"
@@ -102,14 +142,16 @@ const SignupForm = ({
               }
             }}
           >
-            {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
+            {showConfirmPassword ? <FiEye /> : <FiEyeOff />}
           </span>
         </div>
+        {errors.confirmPassword && <p className="error">{errors.confirmPassword.message}</p>}
 
         <button type="submit">Sign Up</button>
       </form>
 
-      {error && <p className="error">{error}</p>}
+      {error && !errors.confirmPassword && <p className="error">{error}</p>}
+      {success && <p className="success">{success}</p>} {/* ✅ success message */}
 
       <hr />
 

@@ -19,7 +19,7 @@ import Menu from './public/pages/Menu';
 // import ForgotPassword from './public/pages/ForgotPassword';
 import StepsForBooking from './public/pages/StepsForBooking';
 
-import AdminDashboard from './public/pages/AdminDashboard';   
+import AdminDashboard from './public/pages/Admin/AdminDashboard';   
 import UserDashboard from './public/pages/UserDashboard';     
 
 import TableBooking from './public/pages/TableBooking';
@@ -64,7 +64,7 @@ const App = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/menu" element={<Menu />} />
           <Route path="/booking" element={<BookingPage />} />  
-          {/* <Route path="/login" element={<LoginPage />} />        */}
+          {/* <Route path="/login" element={<LoginPage />} />        */} 
           <Route path="/login" element={<AuthPage />} />
           {/* <Route path="/signup" element={<SignupPage />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} /> */}

@@ -69,7 +69,7 @@
                     setConfirmPassword={setConfirmPassword}
                     setView={handleChangeView} // use new handler
                     setError={setError}
-                error={error}
+                    error={error}
                 />
             )}
             {view === 'forgot' && (

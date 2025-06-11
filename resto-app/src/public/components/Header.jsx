@@ -27,8 +27,8 @@ const Header = () => {
 
     // Effect to load login info and initial booking status
     useEffect(() => {
-        const role = sessionStorage.getItem('role');
-        const email = sessionStorage.getItem('email');
+        const role = localStorage.getItem('role');
+        const email = localStorage.getItem('email');
 
         if (role) {
             setIsLoggedIn(true);
@@ -39,7 +39,7 @@ const Header = () => {
     // Listen for booking status changes via custom event
     useEffect(() => {
         const updateBookingStatus = () => {
-            const bookingFlag = sessionStorage.getItem('hasNewBooking') === 'true';
+            const bookingFlag = localStorage.getItem('hasNewBooking') === 'true';
             setHasNewBooking(bookingFlag);
         };
 
@@ -76,14 +76,14 @@ const Header = () => {
     }, [isPopupOpen]);
 
     const handleLogout = () => {
-        sessionStorage.clear();
+        localStorage.clear();
         setIsLoggedIn(false);
         navigate('/login');
     };
 
     const handleBookingClick = () => {
         setHasNewBooking(false);
-        sessionStorage.setItem('hasNewBooking', 'false');
+        localStorage.setItem('hasNewBooking', 'false');
         // Dispatch event so other components update
         window.dispatchEvent(new Event('bookingStatusChanged'));
         navigate('/booking');

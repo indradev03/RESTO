@@ -10,14 +10,14 @@ const UserDashboard = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const role = sessionStorage.getItem('role');
+        const role = localStorage.getItem('role');
         if (role !== 'user') {
             navigate('/login');
         }
     }, [navigate]);
 
     const handleLogout = () => {
-        sessionStorage.removeItem('role');
+        localStorage.removeItem('role');
         navigate('/login');
     };
 

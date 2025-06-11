@@ -9,7 +9,7 @@ const TableBooking = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const email = sessionStorage.getItem("email");
+    const email = localStorage.getItem("email");
     if (email) setIsLoggedIn(true);
   }, []);
 
@@ -29,7 +29,7 @@ const TableBooking = () => {
     if (table.status !== "Available") return;
 
     if (isLoggedIn) {
-      sessionStorage.setItem("hasNewBooking", "true"); // Notify header
+      localStorage.setItem("hasNewBooking", "true"); // Notify header
       navigate(`/book/${table.id}`);
     } else {
       navigate("/login");
