@@ -52,68 +52,74 @@ const BookingProcessPage = () => {
     }, 3000);
   };
 
-  return (
-    <div className="booking-process">
-      <h2>Booking Table {tableId}</h2>
+return (
+  <div className="booking-process">
+    <div className="booking-container">
+      {/* Left: Booking Form or Confirmation */}
+      <div className="left-panel">
+        <h2>Booking Table {tableId}</h2>
+        {submitted ? (
+          <div className="confirmation-message">
+            <p>✅ Booking successful for Table {tableId}!</p>
+            <p>You will be redirected shortly...</p>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="booking-form">
+            <label>
+              Full Name:
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </label>
 
-      {submitted ? (
-        <div className="confirmation-message">
-          <p>✅ Booking successful for Table {tableId}!</p>
-          <p>You will be redirected shortly...</p>
-        </div>
-      ) : (
-        <form onSubmit={handleSubmit} className="booking-form">
-          <label>
-            Full Name:
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-          </label>
+            <label>
+              Phone Number:
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                required
+                pattern="[0-9]{10}"
+                title="Enter 10-digit phone number"
+              />
+            </label>
 
-          <label>
-            Phone Number:
-            <input
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              required
-              pattern="[0-9]{10}"
-              title="Enter 10-digit phone number"
-            />
-          </label>
+            <label>
+              Date:
+              <input
+                type="date"
+                name="date"
+                value={formData.date}
+                onChange={handleChange}
+                required
+              />
+            </label>
 
-          <label>
-            Date:
-            <input
-              type="date"
-              name="date"
-              value={formData.date}
-              onChange={handleChange}
-              required
-            />
-          </label>
+            <label>
+              Time:
+              <input
+                type="time"
+                name="time"
+                value={formData.time}
+                onChange={handleChange}
+                required
+              />
+            </label>
 
-          <label>
-            Time:
-            <input
-              type="time"
-              name="time"
-              value={formData.time}
-              onChange={handleChange}
-              required
-            />
-          </label>
+            <button type="submit">Confirm Booking</button>
+          </form>
+        )}
+      </div>
 
-          <button type="submit">Confirm Booking</button>
-        </form>
-      )}
     </div>
-  );
+  </div>
+);
+
 };
 
 export default BookingProcessPage;

@@ -28,6 +28,29 @@ import BookingProcessPage from "./public/pages/BookingProcessPage";
 import BookingPage from './public/pages/BookingPage';
 import AuthPage from './public/pages/AuthPage';
 
+import AddProduct from './public/pages/Admin/AddProduct';
+import AddTable from './public/pages/Admin/AddTable';
+import AdminLayout from './public/pages/Admin/AdminLayout'; // You need to create this
+
+
+
+
+
+// Place this at the top-level of your app (e.g., App.js or index.js)
+const defaultAdmin = {
+  email: 'admin@example.com',
+  password: 'admin123', // You can choose a more secure password
+  role: 'admin'
+};
+
+const users = JSON.parse(localStorage.getItem("users")) || [];
+const adminExists = users.some(user => user.email === defaultAdmin.email && user.role === 'admin');
+
+if (!adminExists) {
+  users.push(defaultAdmin);
+  localStorage.setItem("users", JSON.stringify(users));
+}
+
 // Home section (used on "/")
 const Home = () => (
   <>
@@ -69,10 +92,20 @@ const App = () => {
           {/* <Route path="/signup" element={<SignupPage />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} /> */}
           <Route path="/stepsforbooking" element={<StepsForBooking />} />
-          <Route path="/admin" element={<AdminDashboard />} />      
+
+          {/* Admin Nested Routes */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminDashboard />} /> {/* /admin */}
+            <Route path="add-product" element={<AddProduct />} /> {/* /admin/add-product */}
+            <Route path="add-table" element={<AddTable />} /> {/* /admin/add-table */}
+            {/* Add more admin pages here if needed */}
+          </Route>
+  
+   
           <Route path="/user" element={<UserDashboard />} />       
           <Route path='/tables' element ={ <TableBooking/> } />
           <Route path="/book/:tableId" element={<BookingProcessPage />} />
+          
         </Routes>
       </Layout>
 
