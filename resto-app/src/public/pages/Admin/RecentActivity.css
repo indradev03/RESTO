@@ -1,0 +1,29 @@
+.recent-activity {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.recent-activity h2 {
+  margin-bottom: 1rem;
+}
+
+.recent-activity li {
+  border-bottom: 1px solid #eee;
+  padding: 0.75rem 0;
+}
+
+.activity-label {
+  font-weight: 500;
+}
+
+.activity-detail {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.activity-time {
+  font-size: 0.75rem;
+  color: #999;
+}
