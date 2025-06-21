@@ -7,7 +7,15 @@ import AddProduct from '../../../assets/addproduct.png';
 import addtables from '../../../assets/addtables.png';
 
 const Sidebar = ({ onLogout }) => {
-const navigate = useNavigate();
+  const navigate = useNavigate();
+
+  // Handle logout action
+  const handleLogout = () => {
+    if (typeof onLogout === 'function') {
+      onLogout(); // clear tokens, reset state, etc.
+    }
+    navigate('/login'); // redirect to login page
+  };
 
   return (
     <div className="sidebar-wrapper">
@@ -38,7 +46,7 @@ const navigate = useNavigate();
       </nav>
 
       {/* Logout button outside the nav */}
-      <button className="logout-btn" onClick={onLogout}>
+      <button className="logout-btn" onClick={handleLogout}>
         <FaSignOutAlt className="icon" /> Logout
       </button>
     </div>
