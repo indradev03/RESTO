@@ -1,0 +1,393 @@
+
+    /* Menu */
+    .first-title {
+        color: #e52b34;
+        font-family: Dancing Script, cursive;
+        font-size: 40px;
+        font-weight: 600 ;
+        text-align: center;
+        margin: 20px;
+    }
+
+    .second-title {
+        font-family: sans-serif !important;
+        font-weight: 700 !important;
+        position: relative;
+        text-align: center;
+        margin: 15px;
+    }
+
+    .Menu {
+        width: 100%;
+        margin-left: auto;
+        box-sizing: border-box;
+        margin-right: auto;
+        display: block;
+        padding: 16px;
+    }
+
+    .Menu-Section {
+        margin: 10px;
+        font-family: Roboto, Helvetica, Arial, sans-serif;
+        font-weight: bolder;
+        font-size: 1.5rem;
+        line-height: 1.334;
+        letter-spacing: 0em;
+        text-align: left; /* <- This aligns the text to the left */
+    }
+
+
+    .MenuSingleContainer, .spinner {
+        align-items: center;
+        display: flex;
+    }
+
+    .MenuSingleContainer {
+        flex-wrap: wrap;
+        gap: 5px;
+        justify-content: space-around;
+    }
+
+    .css-1w6wsy5 {
+    background: linear-gradient(to right, #ffffff, #ffe5a0);
+        color: rgba(0, 0, 0, 0.87);
+        transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        border-width: 1px;
+        border-style: solid;
+        border-color: rgba(0, 0, 0, 0.12);
+        border-image: initial;
+        overflow: hidden;
+        border-radius: 15px;
+    }
+
+    .MenuSingleCard {
+        border-radius: 15px;
+        height: 290px;
+        overflow: hidden;
+        padding: 15px;
+        position: relative;
+        width: 300px;
+        background-color: #fff;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animation */
+        cursor: pointer;
+    }
+
+    .MenuSingleCard:hover {
+        transform: translateY(-10px) scale(1.03); /* Slight lift and scale */
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Deeper shadow */
+    }
+
+    .MenuSingleCard img {
+        height: 150px;
+        object-fit: contain;
+        overflow: hidden;
+        width: 100%;
+        transition: transform 0.4s ease;
+    }
+
+    .MenuSingleCard:hover img {
+        transform: scale(1.1); /* Zoom image slightly */
+    }
+
+
+    .css-1anx036 {
+        margin: 8px 0;
+        font-family: 'Poppins', 'Roboto', Helvetica, Arial, sans-serif;
+        font-weight: bold;
+        font-size: 1.4rem;
+        line-height: 1.5;
+        letter-spacing: 0.5px;
+        color: #ff0202;
+        text-align: center;
+    }
+
+
+    .MenuSingleCard p {
+        color: gray;
+        font-size: 14px;
+    }
+
+    .css-9l3uo3 {
+        margin: 0px;
+        font-family: Roboto, Helvetica, Arial, sans-serif;
+        font-weight: 400;
+        font-size: 1rem;
+        line-height: 1.5;
+        letter-spacing: 0.00938em;
+
+        justify-content: center;
+    }
+    .MenuSingleCard .card-price {
+        color: #fbfbfb;
+        font-size: 14px;
+        padding: 10px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 5;
+    }
+
+    .card-price:after {
+        background-color: #e52b34;
+        border-radius: 50%;
+        content: "";
+        height: 100px;
+        position: absolute;
+        right: -30px;
+        top: -30px;
+        width: 100px;
+        z-index: -1;
+    }
+
+    .css-1anx036 {
+        margin: 0px;
+        font-family: Roboto, Helvetica, Arial, sans-serif;
+        font-weight: 500;
+        font-size: 1.25rem;
+        line-height: 1.6;
+        letter-spacing: 0.0075em;
+    }
+
+    @media (min-width: 1200px) {
+        .Menu {
+            max-width: 1200px;
+        }
+    }
+    @media (min-width: 600px) {
+        .Menu {
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+    }
+
+    /* Footer */
+    .footer {
+        margin-top: 30px;
+        background-color: #000000d0;
+        color: #ffffff;
+        padding: 30px 20px;
+    }
+    
+    .footer-Container {
+        max-width: 1500px;
+        margin: auto;
+    }
+    
+    .footer-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    
+    /* Yo chai Vitra ko row haruko box size ko segment   */
+    .footer-menu {
+        flex: 1 1 300px;
+    }
+    
+    .footer-menu img {
+        width: 100px;
+    }
+    
+    .footer-menu p, .footer-menu li {
+        font-size: 14px;
+    }
+    
+    .footer-menu ul {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .footer-menu ul li {
+        margin-bottom: 8px;
+    }
+    
+    .footer-menu ul li a {
+        text-decoration: none;
+        color: #ffffff;
+    }
+
+    /* Get help segment */
+    .help{
+        width: 300px;
+    }
+    .help h3{
+        text-align: center;
+        font-size: 18px;
+        color: #007bff;
+    }
+    .help ul {
+        list-style-type: none;  
+        padding: 0;
+        margin: 0;
+        text-align: center;    
+    }
+    
+    .help ul li {
+        margin: 10px 0;        
+    }
+    
+    .help ul a {
+        font-size: 20px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;   
+    }
+    
+    .help ul a:hover {
+        color: #ff9d00;
+        text-decoration: none;
+    }
+
+    /* Footer Logo section */
+    .Footer-item img {
+        object-fit: contain;
+        width: 30%;
+        margin-left: 2%;
+    }
+    img {
+        object-fit: cover;
+        overflow: hidden;
+    }
+    .Footer-item p{
+        color: #fffdfd;
+        margin-left: 2%;
+    }
+
+    /* Call Us segment */
+    .callus{
+        width: 300px;
+    }
+    .callus h4{
+        text-align: center;
+        font-size: 18px;
+        color: #007bff;
+    }
+    .callus p{
+        color: #ffffff;
+        font-size: 16px;
+        text-align: center;
+    }
+    
+    /*Service Time Section*/
+    .servicehr {
+        width: 400px;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .servicehr h3{
+        text-align: left;
+        margin-left: 100px;
+        font-size: 18px;
+        color: #007bff;
+    }
+
+    .servicehr ul {
+        list-style: none;
+        margin-left: 32px;
+        font-size: 1rem;
+        color: #ffffff;
+        width: 250px; 
+    }
+    
+    .servicehr ul li {
+        display: flex;
+        justify-content: space-between; 
+        padding: 6px 0;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    
+    /* Copyright footer section*/
+    .copyrights{
+        height: 40px;
+        background-color: rgb(0, 0, 0); 
+        margin-top: 30px;
+    } 
+    .copyrights h4 {
+        text-align: center;
+        color: #ffffff;
+        font-weight: 200;
+        font-size: 15px;
+        line-height: 40px; /* Center vertically */
+        margin: 0; /* Remove default margin */
+    }
+    
+
+    /* Tablet & Phone - Max width 768px */
+    @media (max-width: 768px) {
+        .footer-row {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .footer-menu,
+        .help,
+        .callus,
+        .servicehr {
+            width: 90%;
+            max-width: 400px;
+            margin-bottom: 20px;
+        }
+
+        .Footer-item img {
+            width: 50%;
+            margin: 10px auto;
+            display: block;
+        }
+
+        .Footer-item p {
+            margin-left: 0;
+            text-align: center;
+        }
+
+        .servicehr h3 {
+            margin-left: 0;
+            text-align: center;
+        }
+
+        .servicehr ul {
+            margin-left: 0;
+            padding: 0;
+            width: 100%;
+        }
+
+        .servicehr ul li {
+            justify-content: space-between;
+            padding: 6px 20px;
+        }
+    }
+
+    /* Phone - Max width 480px */
+    @media (max-width: 480px) {
+        .footer {
+            padding: 20px 10px;
+        }
+
+        .footer-menu img {
+            width: 80px;
+        }
+
+        .help h3,
+        .callus h4,
+        .servicehr h3 {
+            font-size: 16px;
+        }
+
+        .help ul a,
+        .callus p,
+        .servicehr ul li {
+            font-size: 14px;
+        }
+
+        .Footer-item img {
+            width: 60%;
+        }
+
+        .copyrights h4 {
+            font-size: 13px;
+        }
+    }
+
+    

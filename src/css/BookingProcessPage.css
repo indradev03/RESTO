@@ -1,0 +1,65 @@
+/* Basic layout and background */
+.booking-process {
+  min-height: 100vh;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #333 url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+  font-family: sans-serif;
+  color: #fff;
+}
+
+/* Container for form and message */
+.booking-form,
+.confirmation-message {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Heading */
+.booking-process h2 {
+  margin-bottom: 20px;
+}
+
+/* Labels and inputs */
+.booking-form label {
+  display: block;
+  margin-bottom: 8px;
+  text-align: left;
+}
+
+.booking-form input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #000;
+}
+
+/* Button */
+.booking-form button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #7b2ff7;
+  color: #fff;
+  cursor: pointer;
+}
+
+.booking-form button:hover {
+  background-color: #5a22b5;
+}
+
+/* Confirmation message */
+.confirmation-message p {
+  font-size: 1rem;
+  margin-top: 10px;
+}
