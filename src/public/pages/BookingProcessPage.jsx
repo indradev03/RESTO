@@ -19,7 +19,7 @@ const BookingProcessPage = () => {
   useEffect(() => {
     const email = localStorage.getItem('email');
     if (!email) {
-      navigate('/login'); // Redirect to login if not logged in
+      navigate('/auth/login'); // Redirect to login if not logged in
     } else {
       localStorage.setItem('hasNewBooking', 'true'); // Notify header
       window.dispatchEvent(new Event('bookingStatusChanged'));

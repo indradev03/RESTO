@@ -21,40 +21,27 @@ const Header = () => {
     const menuButtonRef = useRef(null);
     const navigate = useNavigate();
 
-    const togglePopup = () => {
-        setIsPopupOpen(!isPopupOpen);
-    };
+    const togglePopup = () => setIsPopupOpen(!isPopupOpen);
 
-    // Effect to load login info and initial booking status
     useEffect(() => {
         const role = localStorage.getItem('role');
         const email = localStorage.getItem('email');
-
         if (role) {
             setIsLoggedIn(true);
             setUserEmail(email || '');
         }
     }, []);
 
-    // Listen for booking status changes via custom event
     useEffect(() => {
         const updateBookingStatus = () => {
             const bookingFlag = localStorage.getItem('hasNewBooking') === 'true';
             setHasNewBooking(bookingFlag);
         };
-
-        // Initial check on mount
         updateBookingStatus();
-
-        // Listen to custom event dispatched elsewhere in app
         window.addEventListener('bookingStatusChanged', updateBookingStatus);
-
-        return () => {
-            window.removeEventListener('bookingStatusChanged', updateBookingStatus);
-        };
+        return () => window.removeEventListener('bookingStatusChanged', updateBookingStatus);
     }, []);
 
-    // Close popup when clicking outside
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (
@@ -65,11 +52,9 @@ const Header = () => {
                 setIsPopupOpen(false);
             }
         };
-
         if (isPopupOpen) {
             document.addEventListener('mousedown', handleClickOutside);
         }
-
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
@@ -78,13 +63,12 @@ const Header = () => {
     const handleLogout = () => {
         localStorage.clear();
         setIsLoggedIn(false);
-        navigate('/login');
+        navigate('/auth/login');
     };
 
     const handleBookingClick = () => {
         setHasNewBooking(false);
         localStorage.setItem('hasNewBooking', 'false');
-        // Dispatch event so other components update
         window.dispatchEvent(new Event('bookingStatusChanged'));
         navigate('/booking');
     };
@@ -112,7 +96,7 @@ const Header = () => {
 
                 {!isLoggedIn && (
                     <div className="auth-buttons">
-                        <button className="login-btn" onClick={() => navigate('/login')}>Login</button>
+                        <button className="login-btn" onClick={() => navigate('/auth/login')}>Login</button>
                     </div>
                 )}
 
@@ -139,7 +123,7 @@ const Header = () => {
                                     </button>
                                 </>
                             ) : (
-                                <Link to="/login" className="popup-link" onClick={() => setIsPopupOpen(false)}>
+                                <Link to="/auth/login" className="popup-link" onClick={() => setIsPopupOpen(false)}>
                                     <img src={loginIcon} alt="Login Icon" /> Login
                                 </Link>
                             )}

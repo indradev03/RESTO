@@ -21,8 +21,8 @@ const Aboutus = () => {
           {/* Section 1 - Welcome */}
           <div className='row-align-items-center'>
             <div className='col-md-7'>
-              <h3>Welcome to Resto,Where Every Meal Feels Like Home</h3>
-              <p>At Resto, we believe that the best moments in life are shared around 
+              <h3 className="about-section-title" >Welcome to Resto,Where Every Meal Feels Like Home</h3>
+              <p className="about-section-text">At Resto, we believe that the best moments in life are shared around 
                 the table—with laughter, conversation, and comforting food that brings 
                 people together. From casual weeknight dinners to special weekend outings,
                 we’ve created a space where everyone feels welcome and every meal feels
@@ -51,8 +51,8 @@ const Aboutus = () => {
               <img src= {OurStory} alt="Restaurant interior" />
             </div>
             <div className='col-md-7'>
-              <h3>Our Story</h3>
-              <p>Resto was born from a simple yet powerful idea: dining out should feel just as 
+              <h3 className="about-section-title" >Our Story</h3>
+              <p className="about-section-text" >Resto was born from a simple yet powerful idea: dining out should feel just as 
                 comfortable and joyful as eating at home with loved ones. Inspired by the warmth of
                 family traditions and the desire to bring people closer through food, we set out to 
                 create a casual dining space where everyone—especially families—can enjoy delicious 
@@ -70,8 +70,8 @@ const Aboutus = () => {
           {/* Section 3 - What We Offer */}
           <div className='row-align-items-center'>
             <div className='col-md-7'>
-              <h3>What We Offer</h3>
-              <p>
+              <h3 className="about-section-title" >What We Offer</h3>
+              <p className="about-section-text" >
                 At Resto, we offer more than just a place to eat—we provide a dining experience built around comfort, 
                 convenience, and family. Our casual dining atmosphere is warm, welcoming, and perfect for all ages.
                 We’ve designed every detail with families in mind, including spacious seating for large groups, 
@@ -94,8 +94,8 @@ const Aboutus = () => {
               <img src={celebration} alt="Birthday celebration at restaurant" />
             </div>
             <div className='col-md-7'>
-              <h3>Celebrations Made Special</h3>
-              <p>At Resto, we believe every special moment deserves to be celebrated in a warm and welcoming setting. 
+              <h3 className="about-section-title" >Celebrations Made Special</h3>
+              <p className="about-section-text" >At Resto, we believe every special moment deserves to be celebrated in a warm and welcoming setting. 
                 Whether you're planning a birthday, anniversary, graduation, or a family gathering, we’re here to make it 
                 unforgettable. When you book with us, let us know the occasion—we’ll add thoughtful touches like personalized 
                 service, festive table decorations, or a surprise treat to make your celebration even more meaningful. 
@@ -108,8 +108,8 @@ const Aboutus = () => {
           {/* Section 5 - Our Values */}
           <div className='row-align-items-center'>
             <div className='col-md-7'>
-              <h3>Our Values</h3>
-              <p>At Resto, we put family first in everything we do. We believe in creating a welcoming space where everyone 
+              <h3 className="about-section-title" >Our Values</h3>
+              <p className="about-section-text" >At Resto, we put family first in everything we do. We believe in creating a welcoming space where everyone 
                 feels at home. Our commitment to quality means using fresh ingredients and timeless recipes. 
                 We proudly support our local community and constantly innovate to improve your dining experience. 
                 Above all, we value connection, comfort, and making every visit memorable for families and friends alike.</p>
@@ -125,8 +125,8 @@ const Aboutus = () => {
               <img src={Joinus} alt="Smiling staff greeting guests" />
             </div>
             <div className='col-md-7'>
-              <h3>Join Our Table</h3>
-              <p>At Resto, every meal is more than just food—it’s a chance to connect, unwind, and 
+              <h3 className="about-section-title" >Join Our Table</h3>
+              <p className="about-section-text" >At Resto, every meal is more than just food—it’s a chance to connect, unwind, and 
                 create lasting memories. Whether you’re planning a casual lunch, a family dinner, 
                 or a special celebration, we’re here to make your experience warm, easy, and enjoyable. 
                 With our simple reservation system available online and by text, booking a table is just a 

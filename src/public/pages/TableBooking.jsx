@@ -32,7 +32,7 @@ const TableBooking = () => {
       localStorage.setItem("hasNewBooking", "true"); // Notify header
       navigate(`/book/${table.id}`);
     } else {
-      navigate("/login");
+      navigate("/auth/login");
     }
   };
 

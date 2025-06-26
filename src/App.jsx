@@ -1,6 +1,6 @@
 // src/App.jsx
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 
 import Header from './public/components/Header';
 import Slideshow from './public/components/Slideshow';
@@ -88,7 +88,11 @@ const App = () => {
           <Route path="/menu" element={<Menu />} />
           <Route path="/booking" element={<BookingPage />} />  
           {/* <Route path="/login" element={<LoginPage />} />        */} 
-          <Route path="/login" element={<AuthPage />} />
+          {/* Route-based Auth Pages */}
+          <Route path="/auth/:view" element={<AuthPage />} />
+          <Route path="/auth" element={<Navigate to="/auth/login" replace />} />
+
+
           {/* <Route path="/signup" element={<SignupPage />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} /> */}
           <Route path="/stepsforbooking" element={<StepsForBooking />} />

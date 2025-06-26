@@ -1,84 +1,90 @@
     import React, { useState, useEffect } from 'react';
+    import { useParams, useNavigate } from 'react-router-dom';
     import LoginForm from '../pages/LoginPage';
-    import SignupForm from '../pages/SIgnupForm';
+    import SignupForm from '../pages/SignupForm';
     import ForgotPasswordForm from '../pages/ForgotPasswordForm';
     import '../../css/AuthPage.css';
 
     const AuthPage = () => {
-    const [view, setView] = useState('login');
-    const [nextView, setNextView] = useState(null);
-    const [animating, setAnimating] = useState(false);
+    const { view } = useParams(); // login | signup | forgot
+    const navigate = useNavigate();
 
-    // form fields and errors states as before
+    const [animating, setAnimating] = useState(false);
+    const [nextView, setNextView] = useState(null);
+
+    // Shared form states (optional, or handled inside forms)
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [name, setName] = useState('');
-    const [role, setRole] = useState('admin');
+    const [role, setRole] = useState('user');
     const [error, setError] = useState('');
     const [submitted, setSubmitted] = useState(false);
 
-    
-
-    // handle view change with animation
+    // Handles view switch with animation
     const handleChangeView = (newView) => {
-        if (newView === view) return; // no change
+        if (newView !== view) {
         setNextView(newView);
         setAnimating(true);
+        }
     };
 
-    // After animation ends, switch the view
+    // When animating ends, trigger route change
     useEffect(() => {
-        if (animating) {
+        if (animating && nextView) {
         const timer = setTimeout(() => {
-            setView(nextView);
-            setNextView(null);
+            navigate(`/auth/${nextView}`);
             setAnimating(false);
-        }, 300); // match animation duration in CSS
+            setNextView(null);
+        }, 300); // Match your CSS fade duration
         return () => clearTimeout(timer);
         }
-    }, [animating, nextView]);
+    }, [animating, nextView, navigate]);
 
     return (
         <div className="modal" id="authModal">
         <div className="login-wrapper">
-            <div className="image-side"></div>
-            <div className={`auth-content ${animating ? 'fade-out' : 'fade-in'}`}>
+            <div className="image-side" />
+            <div className={`auth-content `}>
             {view === 'login' && (
                 <LoginForm
-                    email={email}
-                    password={password}
-                    role={role}
-                    setEmail={setEmail}
-                    setPassword={setPassword}
-                    setRole={setRole}
-                    setView={handleChangeView} // use new handler
-                    setError={setError}
-                    error={error}
+                email={email}
+                password={password}
+                role={role}
+                setEmail={setEmail}
+                setPassword={setPassword}
+                setRole={setRole}
+                setView={handleChangeView}
+                setError={setError}
+                error={error}
                 />
             )}
+
             {view === 'signup' && (
                 <SignupForm
-                    name={name}
-                    email={email}
-                    password={password}
-                    confirmPassword={confirmPassword}
-                    setName={setName}
-                    setEmail={setEmail}
-                    setPassword={setPassword}
-                    setConfirmPassword={setConfirmPassword}
-                    setView={handleChangeView} // use new handler
-                    setError={setError}
-                    error={error}
+                name={name}
+                email={email}
+                password={password}
+                confirmPassword={confirmPassword}
+                setName={setName}
+                setEmail={setEmail}
+                setPassword={setPassword}
+                setConfirmPassword={setConfirmPassword}
+                setView={handleChangeView}
+                setError={setError}
+                error={error}
                 />
             )}
+
             {view === 'forgot' && (
                 <ForgotPasswordForm
-                    email={email}
-                    setEmail={setEmail}
-                    submitted={submitted}
-                    setSubmitted={setSubmitted}
-                    setView={handleChangeView} // use new handler
+                email={email}
+                setEmail={setEmail}
+                submitted={submitted}
+                setSubmitted={setSubmitted}
+                setView={handleChangeView}
+                setError={setError}
+                error={error}
                 />
             )}
             </div>

@@ -12,7 +12,7 @@ const BookingPage = () => {
   // Load bookings on mount
   useEffect(() => {
     if (!email) {
-      navigate('/login'); // Redirect if not logged in
+      navigate('/auth/login'); // Redirect if not logged in
       return;
     }
 
