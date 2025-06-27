@@ -36,7 +36,7 @@ const SignupForm = ({ setView, setError, error }) => {
     setLoading(true);
 
     try {
-      const res = await fetch('http://localhost:5000/api/users/signup', {
+      const res = await fetch('http://localhost:5000/api/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...data, role: 'user' }),
@@ -45,7 +45,8 @@ const SignupForm = ({ setView, setError, error }) => {
       const result = await res.json();
 
       if (!res.ok) {
-        setError(result.message || 'Signup failed');
+        // Backend error sent in result.error
+        setError(result.error || 'Signup failed');
         setLoading(false);
         return;
       }
@@ -161,8 +162,7 @@ const SignupForm = ({ setView, setError, error }) => {
                 type={showConfirmPassword ? 'text' : 'password'}
                 {...register('confirmPassword', {
                   required: 'Please confirm your password',
-                  validate: (value) =>
-                    value === password || 'Passwords do not match',
+                  validate: (value) => value === password || 'Passwords do not match',
                 })}
                 className="signup-input"
               />
@@ -184,11 +184,7 @@ const SignupForm = ({ setView, setError, error }) => {
                     setShowConfirmPassword((prev) => !prev);
                   }
                 }}
-                aria-label={
-                  showConfirmPassword
-                    ? 'Hide confirm password'
-                    : 'Show confirm password'
-                }
+                aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
               >
                 {showConfirmPassword ? <FiEye /> : <FiEyeOff />}
               </span>
@@ -204,9 +200,7 @@ const SignupForm = ({ setView, setError, error }) => {
         </button>
       </form>
 
-      {error && !errors.confirmPassword && (
-        <p className="signup-error">{error}</p>
-      )}
+      {error && !errors.confirmPassword && <p className="signup-error">{error}</p>}
       {success && <p className="signup-success">{success}</p>}
 
       <hr className="signup-divider" />

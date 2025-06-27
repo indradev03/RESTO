@@ -5,8 +5,11 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
+
+    "dev:backend": "nodemon src/backend/index.js",
+    "dev:frontend": "vite --port 5173",
     "start": "node src/backend/index.js",
-    "dev": "nodemon src/backend/index.js",
+
     "test": "echo \"No tests specified\" && exit 0",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

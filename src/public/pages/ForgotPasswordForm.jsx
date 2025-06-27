@@ -34,7 +34,7 @@
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
-                <button type="submit">Send Reset Link</button>
+                <button className='sendlink-button'>Send Reset Link</button>
                 </form>
             ) : (
                 <p className="success-message">A reset link has been sent to your email.</p>
