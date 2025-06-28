@@ -22,11 +22,21 @@
         setError('');
         setLoading(true);
 
+        const loginUrl =
+        role === 'admin'
+            ? 'http://localhost:5000/api/admin/login'
+            : 'http://localhost:5000/api/auth/login';
+
+        const payload =
+        role === 'admin'
+            ? { emailOrUsername: email, password } // admin can use either
+            : { email, password }; // regular user uses email
+
         try {
-        const response = await fetch('http://localhost:5000/api/auth/login', {
+        const response = await fetch(loginUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify(payload),
         });
 
         const result = await response.json();
@@ -34,13 +44,13 @@
         if (!response.ok) {
             setError(result.message || 'Login failed');
         } else {
-            // Save user session
+            // Store session
             localStorage.setItem('token', result.token);
-            localStorage.setItem('email', result.user.email);
-            localStorage.setItem('role', result.user.role);
+            localStorage.setItem('role', role);
+            localStorage.setItem('email', email);
 
-            // Redirect to dashboard
-            navigate(result.user.role === 'admin' ? '/admin' : '/user');
+            // Redirect
+            navigate(role === 'admin' ? '/admin' : '/user');
         }
         } catch (err) {
         setError('Network error. Please try again.');
@@ -58,9 +68,9 @@
         <>
         <h2>Login</h2>
         <form onSubmit={handleLogin} noValidate>
-            <label>Email:</label>
+            <label>Email or Username:</label>
             <input
-            type="email"
+            type="text"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -123,19 +133,19 @@
             </span>
         </div>
 
-        <div className='signup-container-button'>
+        <div className="signup-container-button">
             <p>
-                Don't have an account?{' '}
-                <span
+            Don't have an account?{' '}
+            <span
                 role="button"
                 tabIndex={0}
                 onClick={() => handleNavigate('signup')}
                 onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') handleNavigate('signup');
+                if (e.key === 'Enter' || e.key === ' ') handleNavigate('signup');
                 }}
-                >
+            >
                 Create Account
-                </span>
+            </span>
             </p>
         </div>
         </>
