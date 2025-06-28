@@ -1,5 +1,5 @@
     import bcrypt from 'bcryptjs';
-    import pool from '../db.js';
+    import pool from '../database/db.js';
 
     /**
      * Get all users (safe fields)

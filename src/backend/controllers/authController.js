@@ -1,6 +1,6 @@
     import bcrypt from 'bcryptjs';
     import jwt from 'jsonwebtoken';
-    import pool from '../db.js';
+    import pool from '../database/db.js';
 
     /**
      * Signup a new user

@@ -34,22 +34,20 @@ import AdminLayout from './public/pages/Admin/AdminLayout'; // You need to creat
 
 
 
+// // Place this at the top-level of your app (e.g., App.js or index.js)
+// const defaultAdmin = {
+//   email: 'admin@example.com',
+//   password: 'admin123', // You can choose a more secure password
+//   role: 'admin'
+// };
 
+// const users = JSON.parse(localStorage.getItem("users")) || [];
+// const adminExists = users.some(user => user.email === defaultAdmin.email && user.role === 'admin');
 
-// Place this at the top-level of your app (e.g., App.js or index.js)
-const defaultAdmin = {
-  email: 'admin@example.com',
-  password: 'admin123', // You can choose a more secure password
-  role: 'admin'
-};
-
-const users = JSON.parse(localStorage.getItem("users")) || [];
-const adminExists = users.some(user => user.email === defaultAdmin.email && user.role === 'admin');
-
-if (!adminExists) {
-  users.push(defaultAdmin);
-  localStorage.setItem("users", JSON.stringify(users));
-}
+// if (!adminExists) {
+//   users.push(defaultAdmin);
+//   localStorage.setItem("users", JSON.stringify(users));
+// }
 
 // Home section (used on "/")
 const Home = () => (
@@ -105,7 +103,7 @@ const App = () => {
             {/* Add more admin pages here if needed */}
           </Route>
   
-   
+  
           <Route path="/user" element={<UserDashboard />} />       
           <Route path='/tables' element ={ <TableBooking/> } />
           <Route path="/book/:tableId" element={<BookingProcessPage />} />
