@@ -1,5 +1,17 @@
-    import React, { useState } from 'react';
-    import '../../../css/AddTable.css'; // Make sure to style accordingly
+    import React, { useState, useEffect } from 'react';
+    import '../../../css/AddTable.css';
+
+    const API_URL = 'http://localhost:5000/api/tables'; // Change if your backend URL differs
+
+    // Helper function to build correct image URL
+    const getImageUrl = (imageUrlFromDB) => {
+    if (!imageUrlFromDB) return 'https://via.placeholder.com/100';
+
+    if (imageUrlFromDB.startsWith('/uploads/')) {
+        return `http://localhost:5000${imageUrlFromDB}`;
+    }
+    return `http://localhost:5000/uploads/${imageUrlFromDB}`;
+    };
 
     const AddTable = () => {
     const [tables, setTables] = useState([]);
@@ -10,49 +22,25 @@
     const [editId, setEditId] = useState(null);
     const [file, setFile] = useState(null);
     const [showForm, setShowForm] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    // Fetch tables from backend on load
+    useEffect(() => {
+        fetchTables();
+    }, []);
+
+    const fetchTables = async () => {
+        try {
+        const res = await fetch(API_URL);
+        const data = await res.json();
+        setTables(data);
+        } catch (error) {
+        console.error('Failed to fetch tables:', error);
+        }
+    };
 
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        const newTable = {
-        id: editId || Date.now(),
-        name: tableName,
-        seats: parseInt(seats),
-        location,
-        description,
-        image: file ? URL.createObjectURL(file) : 'https://via.placeholder.com/100',
-        };
-
-        if (editId) {
-        setTables(tables.map((t) => (t.id === editId ? newTable : t)));
-        } else {
-        setTables([newTable, ...tables]);
-        }
-
-        resetForm();
-    };
-
-    const handleEdit = (table) => {
-        setTableName(table.name);
-        setSeats(table.seats);
-        setLocation(table.location);
-        setDescription(table.description || '');
-        setEditId(table.id);
-        setFile(null); // Avoid pre-filling file input
-        setShowForm(true);
-    };
-
-    const handleDelete = (id) => {
-        setTables(tables.filter((t) => t.id !== id));
-    };
-
-    const handleAddNew = () => {
-        resetForm();
-        setShowForm(true);
     };
 
     const resetForm = () => {
@@ -65,6 +53,78 @@
         setShowForm(false);
     };
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (!tableName || !seats || !location) {
+        alert('Please fill all required fields');
+        return;
+        }
+
+        setLoading(true);
+
+        try {
+        const formData = new FormData();
+        formData.append('name', tableName);
+        formData.append('seats', seats);
+        formData.append('location', location);
+        formData.append('description', description);
+        if (file) formData.append('image', file);
+
+        let res;
+        if (editId) {
+            // Update table - you'll need to implement PUT in backend
+            res = await fetch(`${API_URL}/${editId}`, {
+            method: 'PUT',
+            body: formData,
+            });
+        } else {
+            // Add new table
+            res = await fetch(API_URL, {
+            method: 'POST',
+            body: formData,
+            });
+        }
+
+        if (!res.ok) throw new Error('Failed to save table');
+
+        await fetchTables(); // reload table list
+        resetForm();
+        } catch (err) {
+        alert(err.message);
+        } finally {
+        setLoading(false);
+        }
+    };
+
+    const handleEdit = (table) => {
+        setTableName(table.name);
+        setSeats(table.seats);
+        setLocation(table.location);
+        setDescription(table.description || '');
+        setEditId(table.id);
+        setFile(null);
+        setShowForm(true);
+    };
+
+    const handleDelete = async (id) => {
+        if (!window.confirm('Are you sure you want to delete this table?')) return;
+
+        try {
+        const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+        if (!res.ok) throw new Error('Failed to delete table');
+
+        setTables(tables.filter((t) => t.id !== id));
+        } catch (error) {
+        alert(error.message);
+        }
+    };
+
+    const handleAddNew = () => {
+        resetForm();
+        setShowForm(true);
+    };
+
     const handleOverlayClick = (e) => {
         if (e.target.className === 'modal-overlay') {
         resetForm();
@@ -73,17 +133,24 @@
 
     return (
         <div className="add-table-container">
-            <h2 className="table-page-title">Manage Tables</h2>
+        <h2 className="table-page-title">Manage Tables</h2>
+
         {!showForm && (
             <div className="add-button-Table-container">
-            <button onClick={handleAddNew} className="add-button">+ Add Table</button>
+            <button onClick={handleAddNew} className="add-button">
+                + Add Table
+            </button>
             </div>
         )}
 
         <div className="table-cards">
             {tables.map((table) => (
             <div className="table-card" key={table.id}>
-                <img src={table.image} alt={table.name} className="table-image" />
+                <img
+                src={getImageUrl(table.image_url)}
+                alt={table.name}
+                className="table-image"
+                />
                 <h4>{table.name}</h4>
                 <p>Seats: {table.seats}</p>
                 <p>Location: {table.location}</p>
@@ -99,8 +166,10 @@
         {showForm && (
             <div className="modal-overlay" onClick={handleOverlayClick}>
             <div className="modal-content">
-                <button className="modal-close-btn" onClick={resetForm}>&times;</button>
-                <h2 className='addtableheading'>{editId ? 'Edit Table' : 'Add Table'}</h2>
+                <button className="modal-close-btn" onClick={resetForm}>
+                &times;
+                </button>
+                <h2 className="addtableheading">{editId ? 'Edit Table' : 'Add Table'}</h2>
                 <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="tableName">Table Name:</label>
@@ -149,12 +218,17 @@
 
                 <div className="form-group">
                     <label htmlFor="image">Table Image:</label>
-                    <input id="image" type="file" accept="image/*" onChange={handleFileChange} />
+                    <input
+                    id="image"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    />
                     {file && <p>Selected file: {file.name}</p>}
                 </div>
 
-                <button type="submit" className="submit-btn">
-                    {editId ? 'Update Table' : 'Add Table'}
+                <button type="submit" className="submit-btn" disabled={loading}>
+                    {loading ? 'Saving...' : editId ? 'Update Table' : 'Add Table'}
                 </button>
                 </form>
             </div>

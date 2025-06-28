@@ -65,7 +65,7 @@
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 25px;
   padding: 30px;
-  background-color: transparent;
+  background-color: white;
   box-sizing: border-box;
     /* Adding border shadow */
   box-shadow: 0 4px 8px rgba(5, 5, 5, 0.3); /* Adds a subtle shadow */
