@@ -19,7 +19,7 @@
 }
 
 .add-table-container {
-  margin-left: 290px;
+  margin-left: 330px;
   /* padding: 20px; */
   background-color: transparent;
   min-height: 100vh;
@@ -60,6 +60,7 @@
 
 /* Table Cards Layout */
 .table-cards {
+    border-radius: 20px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 25px;

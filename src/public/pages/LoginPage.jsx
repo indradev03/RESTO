@@ -11,7 +11,7 @@
     setPassword,
     setRole,
     setError,
-    error
+    error,
     }) => {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
@@ -29,8 +29,8 @@
 
         const payload =
         role === 'admin'
-            ? { emailOrUsername: email, password } // admin can use either
-            : { email, password }; // regular user uses email
+            ? { emailOrUsername: email, password }
+            : { email, password };
 
         try {
         const response = await fetch(loginUrl, {
@@ -44,12 +44,15 @@
         if (!response.ok) {
             setError(result.message || 'Login failed');
         } else {
-            // Store session
-            localStorage.setItem('token', result.token);
-            localStorage.setItem('role', role);
-            localStorage.setItem('email', email);
+            // ✅ Destructure token and email (if returned)
+            const { token, email: returnedEmail } = result;
 
-            // Redirect
+            // ✅ Save to localStorage
+            localStorage.setItem('token', token);
+            localStorage.setItem('role', role);
+            localStorage.setItem('email', returnedEmail || email); // Sidebar uses this
+
+            // ✅ Navigate to appropriate dashboard
             navigate(role === 'admin' ? '/admin' : '/user');
         }
         } catch (err) {
@@ -68,7 +71,7 @@
         <>
         <h2>Login</h2>
         <form onSubmit={handleLogin} noValidate>
-            <label>Email or Username:</label>
+            <label>{role === 'admin' ? 'Email or Username:' : 'Email:'}</label>
             <input
             type="text"
             required

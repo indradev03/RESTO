@@ -18,7 +18,7 @@
 }
 
 .add-product-container {
-  margin-left: 290px;
+  margin-left: 330px;
   /* padding: 20px; */
   background-color: transparent;
   min-height: 100vh;
@@ -42,6 +42,7 @@
   background-color: white;
   justify-content: center;
   box-sizing: border-box;
+  border-radius: 20px;
   
   /* Adding border shadow */
   box-shadow: 0 4px 8px rgba(5, 5, 5, 0.3); /* Adds a subtle shadow */

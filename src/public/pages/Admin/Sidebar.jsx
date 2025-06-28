@@ -24,13 +24,15 @@ const Sidebar = ({ onLogout }) => {
       }
 
       try {
-        const res = await fetch(`http://localhost:5000/api/admin/${email}`);
+        // ✅ Corrected endpoint
+        const res = await fetch(`http://localhost:5000/api/admin/email/${email}`);
         if (!res.ok) {
           const errorData = await res.json();
           console.error('Error fetching admin:', errorData.message || 'Unknown error');
           setLoading(false);
           return;
         }
+
         const data = await res.json();
         setAdmin({ username: data.username, email: data.email });
       } catch (err) {
@@ -60,13 +62,14 @@ const Sidebar = ({ onLogout }) => {
       <nav className="sidebar">
         <div className="admin-info">
           {loading ? (
-            <div>Loading...</div>
-          ) : (
-            <>
-              <span className="admin-username">{admin.username || 'Admin'}</span>
-              <br />
+            <div className="loading">Loading admin...</div>
+          ) : admin.username ? (
+            <div className="admin-text">
+              <span className="admin-username">{admin.username}</span>
               <span className="admin-email">{admin.email}</span>
-            </>
+            </div>
+          ) : (
+            <div className="error">Failed to load admin</div>
           )}
         </div>
 
