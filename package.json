@@ -5,11 +5,9 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-
     "dev:backend": "nodemon src/backend/index.js",
     "dev:frontend": "vite --port 5173",
     "start": "node src/backend/index.js",
-
     "test": "echo \"No tests specified\" && exit 0",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -24,7 +22,10 @@
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "express-validator": "^7.2.1",
+    "install": "^0.13.0",
     "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
+    "npm": "^11.4.2",
     "pg": "^8.16.2",
     "react": "^19.1.0",
     "react-data-table-component": "^7.7.0",

@@ -8,11 +8,19 @@
   position: relative;
 }
 
-
+.addtableheading{
+  font-size: 26px; 
+  font-weight: bold; 
+  color: #f3f3f3;
+  text-align: center;
+  margin-bottom: 20px; 
+  font-family: 'Arial', sans-serif; 
+  position: relative;
+}
 
 .add-table-container {
-  margin-left: 230px;
-  padding: 20px;
+  margin-left: 290px;
+  /* padding: 20px; */
   background-color: transparent;
   min-height: 100vh;
   box-sizing: border-box;

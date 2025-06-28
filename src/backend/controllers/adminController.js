@@ -34,4 +34,3 @@ import pool from '../database/db.js'; // your pg.Pool
         res.status(500).json({ message: 'Login error', error: err.message });
     }
     };
-

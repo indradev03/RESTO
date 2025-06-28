@@ -49,9 +49,7 @@
 
 /* Hover/focus effect for sidebar buttons */
 .sidebar button:hover,
-.sidebar button:focus,
-.logout-btn:hover,
-.logout-btn:focus {
+.sidebar button:focus {
   background-color: #087ef4;
   color: #fff;
   outline: none;
@@ -75,7 +73,7 @@
 .logout-btn {
   background-color: #878282;
   color: white;
-  margin-top: auto; /* Pushes logout to bottom inside flex column */
+  margin-bottom:50px; /* Pushes logout to bottom inside flex column */
 }
 
 /* Hover color for logout */

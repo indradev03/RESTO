@@ -100,7 +100,7 @@
             <div className="modal-overlay" onClick={handleOverlayClick}>
             <div className="modal-content">
                 <button className="modal-close-btn" onClick={resetForm}>&times;</button>
-                <h2>{editId ? 'Edit Table' : 'Add Table'}</h2>
+                <h2 className='addtableheading'>{editId ? 'Edit Table' : 'Add Table'}</h2>
                 <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="tableName">Table Name:</label>

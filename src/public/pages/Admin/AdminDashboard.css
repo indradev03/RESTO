@@ -1,9 +1,9 @@
 
 .admin-dashboard-container {
-  margin-left: 230px;
+  margin-left: 290px;
   margin-top: 0;
-  padding: 20px;
-  background-color: #f9f9f9;
+  /* padding: 20px; */
+  /* background-color: #f9f9f9; */
   min-height: 100vh;
   box-sizing: border-box;
 
@@ -27,7 +27,7 @@
 .dashboard-main {
   flex-grow: 1;
   padding: 2rem;
-  background-color: #ffffff;
+  /* background-color: #ffffff; */
 }
 
 .stat-grid {

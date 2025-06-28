@@ -103,7 +103,7 @@ const AddProduct = () => {
         <div className="modal-overlay" onClick={handleOverlayClick}>
           <div className="modal-content">
             <button className="modal-close-btn" onClick={resetForm}>&times;</button>
-            <h2>{editId ? 'Edit Product' : 'Add Product'}</h2>
+            <h2 className='addproducthoverlayheading'>{editId ? 'Edit Product' : 'Add Product'}</h2>
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label htmlFor="productName">Product Name:</label>
