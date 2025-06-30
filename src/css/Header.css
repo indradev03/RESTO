@@ -94,7 +94,7 @@ nav ul li a {
     transition: transform 0.2s ease;
     background: none;
 }
-.auth-buttons .login-btn {
+.auth-buttons .login-btn .userlogoutbtn {
     color: #000000;
 }
 .auth-buttons button.active-btn {
@@ -103,7 +103,6 @@ nav ul li a {
 }
 .auth-buttons button:hover {
     color: rgb(4, 109, 255);
-    
     transform: scale(1.05);
 }
 

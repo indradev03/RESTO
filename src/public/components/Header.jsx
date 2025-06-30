@@ -16,6 +16,9 @@ const Header = () => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userEmail, setUserEmail] = useState('');
+    const [name, setName] = useState('');
+
+
     const [hasNewBooking, setHasNewBooking] = useState(false);
     const popupRef = useRef(null);
     const menuButtonRef = useRef(null);
@@ -23,14 +26,18 @@ const Header = () => {
 
     const togglePopup = () => setIsPopupOpen(!isPopupOpen);
 
-    useEffect(() => {
-        const role = localStorage.getItem('role');
-        const email = localStorage.getItem('email');
-        if (role) {
-            setIsLoggedIn(true);
-            setUserEmail(email || '');
-        }
-    }, []);
+        useEffect(() => {
+            const role = localStorage.getItem('role');
+            const email = localStorage.getItem('email');
+            const storedName = localStorage.getItem('name');
+            if (role) {
+                setIsLoggedIn(true);
+                setUserEmail(email || '');
+                setName(storedName || '');
+            }
+        }, []);
+
+
 
     useEffect(() => {
         const updateBookingStatus = () => {
@@ -94,11 +101,14 @@ const Header = () => {
                     </ul>
                 </nav>
 
-                {!isLoggedIn && (
-                    <div className="auth-buttons">
+                <div className="auth-buttons">
+                    {isLoggedIn ? (
+                        <button className="userlogoutbtn" onClick={handleLogout}>Logout</button>
+                    ) : (
                         <button className="login-btn" onClick={() => navigate('/auth/login')}>Login</button>
-                    </div>
-                )}
+                    )}
+                </div>
+
 
                 <div className="header-icons">
                     <button onClick={handleBookingClick} className="booking-icon-button" aria-label="Booking">
@@ -116,7 +126,7 @@ const Header = () => {
                                 <>
                                     <div className="popup-link">
                                         <img src={profileIcon} alt="Profile Icon" />
-                                        {userEmail || 'Profile'}
+                                        {name || 'Profile'}
                                     </div>
                                     <button className="popup-link" onClick={handleLogout}>
                                         <img src={logoutIcon} alt="Logout Icon" /> Logout

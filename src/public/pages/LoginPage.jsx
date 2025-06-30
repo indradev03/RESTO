@@ -40,19 +40,17 @@
         });
 
         const result = await response.json();
-
         if (!response.ok) {
             setError(result.message || 'Login failed');
         } else {
-            // ✅ Destructure token and email (if returned)
-            const { token, email: returnedEmail } = result;
+            const { token, user } = result;
+            const { email: returnedEmail, name } = user || {};
 
-            // ✅ Save to localStorage
             localStorage.setItem('token', token);
             localStorage.setItem('role', role);
-            localStorage.setItem('email', returnedEmail || email); // Sidebar uses this
+            localStorage.setItem('email', returnedEmail || email);
+            localStorage.setItem('name', name || '');
 
-            // ✅ Navigate to appropriate dashboard
             navigate(role === 'admin' ? '/admin' : '/user');
         }
         } catch (err) {

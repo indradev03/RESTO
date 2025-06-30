@@ -1,16 +1,11 @@
-import React, { useEffect } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+// AdminLayout.jsx
+import React from 'react';
+import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
+import useAuthRedirect from '../../../backend/hooks/useAuthRedirect';
 
 const AdminLayout = () => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const role = localStorage.getItem('role');
-    if (role !== 'admin') {
-      navigate('/login');
-    }
-  }, [navigate]);
+  useAuthRedirect('admin'); // 🔒 Check for admin role
 
   return (
     <div className="dashboard-container">
