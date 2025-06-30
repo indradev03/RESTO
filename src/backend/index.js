@@ -22,7 +22,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ✅ Serve uploaded images statically
+//  Serve uploaded images statically
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // API Routes
