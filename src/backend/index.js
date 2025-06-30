@@ -17,26 +17,44 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Middleware
+// Middleware to log each request (helps debug routing)
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.originalUrl}`);
+  next();
+});
+
+// Enable CORS and parse JSON / URL-encoded bodies
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-//  Serve uploaded images statically
+// Serve uploaded images statically at /uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// API Routes
+// Register API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/tables', tableRoutes);
 
-// Fallback route (optional)
+// 404 handler (must be after all routes)
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
 
-// Start server
+// Global error handler (to catch errors from routes and middleware)
+app.use((err, req, res, next) => {
+  console.error('Unexpected server error:', err);
+  
+  // Handle multer file upload errors explicitly (optional)
+  if (err.name === 'MulterError') {
+    return res.status(400).json({ error: 'File upload error', detail: err.message });
+  }
+
+  res.status(500).json({ error: 'Internal Server Error', detail: err.message });
+});
+
+// Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);

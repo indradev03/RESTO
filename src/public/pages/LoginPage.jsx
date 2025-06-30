@@ -40,16 +40,19 @@
         });
 
         const result = await response.json();
+
         if (!response.ok) {
             setError(result.message || 'Login failed');
         } else {
             const { token, user } = result;
-            const { email: returnedEmail, name } = user || {};
+            const { email: returnedEmail, name, id } = user || {}; // <-- get id here
 
+            // Save important info to localStorage
             localStorage.setItem('token', token);
             localStorage.setItem('role', role);
             localStorage.setItem('email', returnedEmail || email);
             localStorage.setItem('name', name || '');
+            localStorage.setItem('userId', id);  // <-- save userId here!
 
             navigate(role === 'admin' ? '/admin' : '/user');
         }

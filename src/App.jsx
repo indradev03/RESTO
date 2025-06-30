@@ -32,22 +32,7 @@ import AddProduct from './public/pages/Admin/AddProduct';
 import AddTable from './public/pages/Admin/AddTable';
 import AdminLayout from './public/pages/Admin/AdminLayout'; // You need to create this
 
-
-
-// // Place this at the top-level of your app (e.g., App.js or index.js)
-// const defaultAdmin = {
-//   email: 'admin@example.com',
-//   password: 'admin123', // You can choose a more secure password
-//   role: 'admin'
-// };
-
-// const users = JSON.parse(localStorage.getItem("users")) || [];
-// const adminExists = users.some(user => user.email === defaultAdmin.email && user.role === 'admin');
-
-// if (!adminExists) {
-//   users.push(defaultAdmin);
-//   localStorage.setItem("users", JSON.stringify(users));
-// }
+import EditProfile from './public/pages/EditProfile'; // Import the EditProfile component
 
 // Home section (used on "/")
 const Home = () => (
@@ -85,6 +70,8 @@ const App = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/menu" element={<Menu />} />
           <Route path="/booking" element={<BookingPage />} />  
+          <Route path="/profile/edit" element={<EditProfile />} />
+
           {/* <Route path="/login" element={<LoginPage />} />        */} 
           {/* Route-based Auth Pages */}
           <Route path="/auth/:view" element={<AuthPage />} />

@@ -110,6 +110,7 @@ nav ul li a {
 #popupMenu {
     position: absolute;
     right: 0;
+    width: 230px;
     top: 50px;
     background-color: white;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
@@ -124,40 +125,70 @@ nav ul li a {
     animation: fade 0.3s ease-in-out;
 }
 
+.popup-profile-img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+
+
+
 /* For <Link> elements styled like buttons */
+/* Common styles for both links and buttons */
 .popup-link {
     display: flex;
     align-items: center;
-    font-size: 16px;
+    font-size: 18px;
     padding: 8px 12px;
     cursor: pointer;
-    width: 150px;
-    gap: 10px;
+    width: 230px;             /* full width of popup */
+    gap: 15px;
     color: #00000089;
-    text-decoration: none;
     background: none;
     border: none;
     border-radius: 5px;
     animation: slideIn 0.4s ease forwards;
     opacity: 0;
+    box-sizing: border-box;   /* include padding in width */
+    text-decoration: none;    /* removes underline on links */
+    font-family: inherit;     /* inherit font styles */
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Additional reset for buttons to remove default button styling */
+.popup-link[type="button"] {
+    /* This ensures buttons have no default browser styles */
+    background: none;
+    border: none;
+    padding: 8px 12px;
+    font: inherit;
+    color: inherit;
+        color: #00000089;
+}
+
+/* Icon inside links and buttons */
 .popup-link img {
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: 30px;
 }
 
-.popup-link:hover {
+/* Hover effect */
+.popup-link:hover,
+.popup-link:focus {
     background-color: #0039f59b;
     color: #ffffff;
+    outline: none; /* remove default focus outline if desired */
 }
 
-/* Animation delays for each item */
+/* Animation delays */
 .popup-link:nth-child(1) { animation-delay: 0.1s; }
 .popup-link:nth-child(2) { animation-delay: 0.2s; }
 .popup-link:nth-child(3) { animation-delay: 0.3s; }
 .popup-link:nth-child(4) { animation-delay: 0.4s; }
 .popup-link:nth-child(5) { animation-delay: 0.5s; }
+
 
 /*=================== ANIMATIONS ===================*/
 @keyframes fade {

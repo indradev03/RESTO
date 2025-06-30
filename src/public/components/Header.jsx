@@ -17,27 +17,28 @@ const Header = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userEmail, setUserEmail] = useState('');
     const [name, setName] = useState('');
-
-
+    const [profileImageUrl, setProfileImageUrl] = useState('');
     const [hasNewBooking, setHasNewBooking] = useState(false);
+
     const popupRef = useRef(null);
     const menuButtonRef = useRef(null);
     const navigate = useNavigate();
 
     const togglePopup = () => setIsPopupOpen(!isPopupOpen);
 
-        useEffect(() => {
-            const role = localStorage.getItem('role');
-            const email = localStorage.getItem('email');
-            const storedName = localStorage.getItem('name');
-            if (role) {
-                setIsLoggedIn(true);
-                setUserEmail(email || '');
-                setName(storedName || '');
-            }
-        }, []);
+    useEffect(() => {
+        const role = localStorage.getItem('role');
+        const email = localStorage.getItem('email');
+        const storedName = localStorage.getItem('name');
+        const storedImage = localStorage.getItem('profile_image_url');
 
-
+        if (role) {
+            setIsLoggedIn(true);
+            setUserEmail(email || '');
+            setName(storedName || '');
+            setProfileImageUrl(storedImage || '');
+        }
+    }, []);
 
     useEffect(() => {
         const updateBookingStatus = () => {
@@ -109,7 +110,6 @@ const Header = () => {
                     )}
                 </div>
 
-
                 <div className="header-icons">
                     <button onClick={handleBookingClick} className="booking-icon-button" aria-label="Booking">
                         <img src={checkoutIcon} alt="Booking Icon" />
@@ -124,11 +124,16 @@ const Header = () => {
                         <div id="popupMenu" ref={popupRef}>
                             {isLoggedIn ? (
                                 <>
-                                    <div className="popup-link">
-                                        <img src={profileIcon} alt="Profile Icon" />
+                                    <Link to="/profile/edit" className="popup-link" onClick={() => setIsPopupOpen(false)}>
+                                        <img
+                                            src={profileImageUrl   || profileIcon}
+                                            alt="Profile"
+                                            className="popup-profile-img"
+                                        />
                                         {name || 'Profile'}
-                                    </div>
-                                    <button className="popup-link" onClick={handleLogout}>
+                                    </Link>
+
+                                    <button type='button' className="popup-link" onClick={handleLogout}>
                                         <img src={logoutIcon} alt="Logout Icon" /> Logout
                                     </button>
                                 </>
