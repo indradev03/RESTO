@@ -95,8 +95,6 @@ const Header = () => {
                         <li><Link to="/Aboutus">About us</Link></li>
                         <li><Link to="/">Home</Link></li>
                         <li><Link to="/SpecialOffers">Special Offers</Link></li>
-                        <li><Link to="/Jobs">Jobs</Link></li>
-                        <li><Link to="/Contact">Contact Us</Link></li>
                         <li><Link to="/menu">Menu</Link></li>
                         <li><Link to="/tables">Tables</Link></li>
                     </ul>
