@@ -44,7 +44,7 @@
 
     .MenuSingleContainer {
         flex-wrap: wrap;
-        gap: 5px;
+        gap: 20px;
         justify-content: space-around;
     }
 
