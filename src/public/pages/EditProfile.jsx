@@ -164,14 +164,11 @@
         <div className="image-preview-wrapper">
 
             {imagePreview ? (
-                <img src={imagePreview} alt="Profile" className="profile-image-preview" />
+            <img src={imagePreview} alt="Profile" className="profile-image-preview" />
             ) : (
-                // Circular placeholder base with icon
-                <div className="profile-image-preview placeholder">
-                    <span role="img" aria-label="profile placeholder" style={{ fontSize: '64px', color: '#bbb' }}>
-                        👤
-                    </span>
-                </div>
+            <div className="profile-image-preview placeholder">
+                <span role="img" aria-label="profile placeholder">👤</span>
+            </div>
             )}
             <div className="edit-icon-overlay" onClick={() => document.getElementById('hiddenFileInput').click()}>
                 <i className="fas fa-edit"></i>

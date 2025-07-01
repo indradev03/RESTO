@@ -69,17 +69,20 @@
 }
 
 .profile-image-preview.placeholder {
-    background-color: #f0f0f0; /* light gray */
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    border: 4px solid #eee;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    width: 150px;
-    height: 150px;
-    border: 4px solid #eee;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     user-select: none;
+    font-size: 64px; /* ensure consistent size */
+    color: #bbb;
 }
+
 
 
 /* Form */

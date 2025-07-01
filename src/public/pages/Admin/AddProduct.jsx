@@ -1,56 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../../../css/AddProduct.css';
-import { menuItems } from '../../../data/MenuData';
+
+const API_URL = 'http://localhost:5000/api/products';
+
+const getImageUrl = (imageUrlFromDB) => {
+  if (!imageUrlFromDB) return 'https://via.placeholder.com/100';
+  if (imageUrlFromDB.startsWith('/uploads/')) {
+    return `http://localhost:5000${imageUrlFromDB}`;
+  }
+  return `http://localhost:5000/uploads/${imageUrlFromDB}`;
+};
 
 const AddProduct = () => {
-  const [products, setProducts] = useState(menuItems);
+  const [products, setProducts] = useState([]);
   const [productName, setProductName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [file, setFile] = useState(null);
   const [editId, setEditId] = useState(null);
   const [showForm, setShowForm] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const newProduct = {
-      id: editId || Date.now(),
-      name: productName,
-      description,
-      price: parseFloat(price),
-      image: file ? URL.createObjectURL(file) : 'https://via.placeholder.com/100',
-    };
-
-    if (editId) {
-      setProducts(products.map((p) => (p.id === editId ? newProduct : p)));
-    } else {
-     setProducts([newProduct, ...products]); // New product shown first
+  const fetchProducts = async () => {
+    try {
+      const res = await fetch(API_URL);
+      const data = await res.json();
+      setProducts(data);
+    } catch (err) {
+      console.error('Failed to fetch products:', err);
     }
-
-    resetForm();
-  };
-
-  const handleEdit = (product) => {
-    setProductName(product.name);
-    setDescription(product.description);
-    setPrice(product.price);
-    setEditId(product.id);
-    setFile(null);
-    setShowForm(true);
-  };
-
-  const handleDelete = (id) => {
-    setProducts(products.filter((p) => p.id !== id));
-  };
-
-  const handleAddNew = () => {
-    resetForm();
-    setShowForm(true);
   };
 
   const resetForm = () => {
@@ -62,29 +44,95 @@ const AddProduct = () => {
     setShowForm(false);
   };
 
-  // Close modal if clicked outside form area
   const handleOverlayClick = (e) => {
-    if (e.target.className === 'modal-overlay') {
+    if (e.target.className === 'modal-overlay') resetForm();
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!productName || !price) {
+      alert('Please fill all required fields');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append('name', productName);
+      formData.append('description', description);
+      formData.append('price', price);
+      if (file) formData.append('image', file);
+
+      let res;
+      if (editId) {
+        res = await fetch(`${API_URL}/${editId}`, {
+          method: 'PUT',
+          body: formData,
+        });
+      } else {
+        res = await fetch(API_URL, {
+          method: 'POST',
+          body: formData,
+        });
+      }
+
+      if (!res.ok) throw new Error('Failed to save product');
+      await fetchProducts();
       resetForm();
+    } catch (err) {
+      alert(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
+  const handleEdit = (product) => {
+    setProductName(product.name);
+    setDescription(product.description);
+    setPrice(product.price);
+    setEditId(product.id);
+    setFile(null);
+    setShowForm(true);
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this product?')) return;
+
+    try {
+      const res = await fetch(`${API_URL}/${id}`, {
+        method: 'DELETE',
+      });
+      if (!res.ok) throw new Error('Failed to delete product');
+      setProducts(products.filter((p) => p.id !== id));
+    } catch (err) {
+      alert(err.message);
+    }
+  };
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleAddNew = () => {
+    resetForm();
+    setShowForm(true);
+  };
+
   return (
-    <div className = 'add-product-container'>
+    <div className="add-product-container">
       <h2 className="page-title">Manage Products</h2>
 
-      {/* Add New Button */}
       {!showForm && (
         <div className="add-button-container">
           <button onClick={handleAddNew} className="add-button">+ Add Product</button>
         </div>
       )}
-      
-      {/* Product cards */}
+
       <div className="product-cards">
         {products.map((product) => (
           <div className="product-card" key={product.id}>
-            <img src={product.image} alt={product.name} />
+            <img src={getImageUrl(product.image_url)} alt={product.name} />
             <h4>{product.name}</h4>
             <p>{product.description}</p>
             <p>Rs. {product.price}</p>
@@ -96,14 +144,11 @@ const AddProduct = () => {
         ))}
       </div>
 
-
-
-      {/* Modal Form */}
       {showForm && (
         <div className="modal-overlay" onClick={handleOverlayClick}>
           <div className="modal-content">
             <button className="modal-close-btn" onClick={resetForm}>&times;</button>
-            <h2 className='addproducthoverlayheading'>{editId ? 'Edit Product' : 'Add Product'}</h2>
+            <h2 className="addproducthoverlayheading">{editId ? 'Edit Product' : 'Add Product'}</h2>
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label htmlFor="productName">Product Name:</label>
@@ -120,10 +165,9 @@ const AddProduct = () => {
                 <label htmlFor="description">Description:</label>
                 <textarea
                   id="description"
+                  rows="4"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  required
-                  rows="4"
                 ></textarea>
               </div>
 
@@ -136,7 +180,6 @@ const AddProduct = () => {
                   onChange={(e) => setPrice(e.target.value)}
                   required
                   min="0"
-                  step="0.01"
                 />
               </div>
 
@@ -146,8 +189,8 @@ const AddProduct = () => {
                 {file && <p>Selected file: {file.name}</p>}
               </div>
 
-              <button type="submit" className="submit-btn">
-                {editId ? 'Update Product' : 'Add Product'}
+              <button type="submit" className="submit-btn" disabled={loading}>
+                {loading ? 'Saving...' : editId ? 'Update Product' : 'Add Product'}
               </button>
             </form>
           </div>
