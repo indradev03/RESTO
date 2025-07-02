@@ -27,7 +27,7 @@ const TableBooking = () => {
         const response = await fetch("http://localhost:5000/api/tables");
         if (!response.ok) throw new Error("Failed to fetch tables");
         const data = await response.json();
-        setTables(data);
+        setTables(data.tables ?? data); // Flexible for response shape
       } catch (err) {
         setError(err.message || "Unknown error");
       } finally {
@@ -58,7 +58,6 @@ const TableBooking = () => {
   const handleBookNow = (table) => {
     if (table.status !== "Available") return;
     if (isLoggedIn) {
-      localStorage.setItem("hasNewBooking", "true");
       navigate(`/book/${table.table_id}`);
     } else {
       navigate("/auth/login");
@@ -97,12 +96,12 @@ const TableBooking = () => {
         <tbody>
           {tables.map((table) => (
             <tr key={table.table_id}>
-              <td>{table.table_id}</td>
+              <td>{table.name || table.table_id}</td>
               <td>
                 {table.image_url ? (
                   <img
                     src={`http://localhost:5000${table.image_url}`}
-                    alt={`Table ${table.table_id}`}
+                    alt={`Table ${table.name || table.table_id}`}
                     className="table-thumbnail"
                   />
                 ) : (
@@ -165,19 +164,11 @@ const TableBooking = () => {
                 <div className="details-group">
                   <div className="detail-row">
                     <div className="detail-label">Table Number:</div>
-                    <div className="detail-value">{selectedTable.table_id}</div>
-                  </div>
-                  <div className="detail-row">
-                    <div className="detail-label">Name:</div>
-                    <div className="detail-value">
-                      {selectedTable.name || "N/A"}
-                    </div>
+                    <div className="detail-value">{selectedTable.name}</div>
                   </div>
                   <div className="detail-row">
                     <div className="detail-label">Seats:</div>
-                    <div className="detail-value">
-                      {selectedTable.seats || "N/A"}
-                    </div>
+                    <div className="detail-value">{selectedTable.seats}</div>
                   </div>
                   <div className="detail-row">
                     <div className="detail-label">Location:</div>
