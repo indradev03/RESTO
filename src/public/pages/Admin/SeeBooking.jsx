@@ -5,7 +5,7 @@ const SeeBooking = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [deletingId, setDeletingId] = useState(null); // Track which booking is deleting
+  const [deletingId, setDeletingId] = useState(null);
 
   useEffect(() => {
     fetchBookings();
@@ -38,7 +38,6 @@ const SeeBooking = () => {
         const errData = await res.json();
         throw new Error(errData.message || 'Failed to delete booking');
       }
-      // Remove deleted booking from state to update UI
       setBookings((prev) => prev.filter((b) => b.booking_id !== booking_id));
       setError(null);
     } catch (err) {
@@ -48,37 +47,37 @@ const SeeBooking = () => {
     }
   };
 
-  if (loading) return <div className="loading">Loading bookings...</div>;
-  if (error) return <div className="error">{error}</div>;
-  if (bookings.length === 0) return <div className="no-bookings">No bookings found.</div>;
+  if (loading) return <div className="seebooking-loading">Loading bookings...</div>;
+  if (error) return <div className="seebooking-error">{error}</div>;
+  if (bookings.length === 0) return <div className="seebooking-no-bookings">No bookings found.</div>;
 
   return (
-    <div className="see-booking-container">
-      <h2>Bookings</h2>
-      <table className="booking-table">
+    <div className="seebooking-container">
+      <h2 className="seebooking-title">Bookings</h2>
+      <table className="seebooking-table">
         <thead>
           <tr>
-            <th>Booking ID</th>
-            <th>Table</th>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Actions</th>
+            <th className="seebooking-th">Booking ID</th>
+            <th className="seebooking-th">Table</th>
+            <th className="seebooking-th">Name</th>
+            <th className="seebooking-th">Phone</th>
+            <th className="seebooking-th">Date</th>
+            <th className="seebooking-th">Time</th>
+            <th className="seebooking-th">Actions</th>
           </tr>
         </thead>
         <tbody>
           {bookings.map(({ booking_id, table_id, name, phone, date, time }) => (
-            <tr key={booking_id}>
-              <td>{booking_id}</td>
-              <td>{table_id}</td>
-              <td>{name}</td>
-              <td>{phone}</td>
-              <td>{new Date(date).toLocaleDateString()}</td>
-              <td>{time}</td>
-              <td>
+            <tr key={booking_id} className="seebooking-tr">
+              <td className="seebooking-td">{booking_id}</td>
+              <td className="seebooking-td">{table_id}</td>
+              <td className="seebooking-td">{name}</td>
+              <td className="seebooking-td">{phone}</td>
+              <td className="seebooking-td">{new Date(date).toLocaleDateString()}</td>
+              <td className="seebooking-td">{time}</td>
+              <td className="seebooking-td">
                 <button
-                  className="delete-btn"
+                  className="seebooking-delete-btn"
                   onClick={() => handleDelete(booking_id)}
                   disabled={deletingId === booking_id}
                 >
