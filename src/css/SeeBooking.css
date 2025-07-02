@@ -1,0 +1,84 @@
+.see-booking-container {
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  background: #f7faff;
+  border-radius: 8px;
+  max-width: 1300px;
+
+  margin-left: 330px;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.15);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #0d6efd; /* Bootstrap primary blue */
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+
+.booking-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 12px;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgb(13 110 253 / 0.2);
+}
+
+.booking-table thead tr {
+  background-color: #0d6efd;
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.booking-table th,
+.booking-table td {
+  padding: 14px 18px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.booking-table tbody tr {
+  background: #e9f0ff;
+  transition: background-color 0.3s ease;
+  border-radius: 8px;
+}
+
+.booking-table tbody tr:hover {
+  background: #d0e3ff;
+}
+
+.delete-btn {
+  background-color: #dc3545; /* Bootstrap danger red */
+  border: none;
+  color: white;
+  padding: 7px 14px;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+.delete-btn:hover:not(:disabled) {
+  background-color: #bb2d3b;
+}
+
+.delete-btn:disabled {
+  background-color: #f5c6cb;
+  cursor: not-allowed;
+}
+
+.loading,
+.error,
+.no-bookings {
+  padding: 30px;
+  font-weight: 600;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #555;
+}

@@ -33,6 +33,7 @@ import AddTable from './public/pages/Admin/AddTable';
 import AdminLayout from './public/pages/Admin/AdminLayout'; // You need to create this
 
 import EditProfile from './public/pages/EditProfile'; // Import the EditProfile component
+import SeeBooking from './public/pages/Admin/SeeBooking'; // Adjust path accordingly
 
 // Home section (used on "/")
 const Home = () => (
@@ -87,8 +88,10 @@ const App = () => {
             <Route index element={<AdminDashboard />} /> {/* /admin */}
             <Route path="add-product" element={<AddProduct />} /> {/* /admin/add-product */}
             <Route path="add-table" element={<AddTable />} /> {/* /admin/add-table */}
+            <Route path="see-booking" element={<SeeBooking />} /> {/* /admin/see-booking */}
             {/* Add more admin pages here if needed */}
           </Route>
+
   
   
           <Route path="/user" element={<UserDashboard />} />       
