@@ -10,19 +10,19 @@ import {
 
 const router = express.Router();
 
-// GET /api/users/       - Get all users (safe fields)
+// GET /api/users/              - Get all users (safe fields)
 router.get('/', getUsers);
 
-// GET /api/users/:id    - Get user by ID
-router.get('/:id', getById);
+// GET /api/users/:user_id      - Get user by user_id
+router.get('/:user_id', getById);
 
-// PUT /api/users/:id    - Update user details (excluding image)
-router.put('/:id', update);
+// PUT /api/users/:user_id      - Update user details (excluding image)
+router.put('/:user_id', update);
 
-// DELETE /api/users/:id - Delete user by ID
-router.delete('/:id', deleteById);
+// DELETE /api/users/:user_id   - Delete user by user_id
+router.delete('/:user_id', deleteById);
 
-// PUT /api/users/:id/profile-image - Update user's profile image
-router.put('/:id/profile-image', upload.single('profileImage'), updateUserImage);
+// PUT /api/users/:user_id/profile-image - Update user's profile image
+router.put('/:user_id/profile-image', upload.single('profileImage'), updateUserImage);
 
 export default router;

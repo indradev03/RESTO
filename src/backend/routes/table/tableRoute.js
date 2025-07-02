@@ -12,8 +12,8 @@ const router = express.Router();
 
 router.post('/', upload.single('image'), addTable);
 router.get('/', getTables);
-router.get('/:id', getTableById);           // <--- Add this for fetching a single table
-router.put('/:id', upload.single('image'), updateTable);
-router.delete('/:id', deleteTable);
+router.get('/:table_id', getTableById);                  // Updated
+router.put('/:table_id', upload.single('image'), updateTable);  // Updated
+router.delete('/:table_id', deleteTable);                // Updated
 
 export default router;

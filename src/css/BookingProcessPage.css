@@ -1,65 +1,114 @@
-/* Basic layout and background */
+/* Fullscreen background with image */
 .booking-process {
   min-height: 100vh;
   padding: 40px 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #333 url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
-  font-family: sans-serif;
-  color: #fff;
-}
-
-/* Container for form and message */
-.booking-form,
-.confirmation-message {
-  background-color: rgba(0, 0, 0, 0.6);
-  padding: 20px;
-  border-radius: 10px;
-  max-width: 400px;
-  width: 100%;
-  text-align: center;
-}
-
-/* Heading */
-.booking-process h2 {
-  margin-bottom: 20px;
-}
-
-/* Labels and inputs */
-.booking-form label {
-  display: block;
-  margin-bottom: 8px;
-  text-align: left;
-}
-
-.booking-form input {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 15px;
-  border-radius: 5px;
-  border: none;
-  background-color: rgba(255, 255, 255, 0.8);
+  background: url('../assets/banner.jpg') no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #000;
 }
 
-/* Button */
-.booking-form button {
+/* Container wrapping the form/message */
+.booking-container {
+  background-color: rgba(255, 255, 255, 0.88);
+  padding: 35px 30px;
+  border-radius: 12px;
+  max-width: 450px;
   width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  background-color: #7b2ff7;
-  color: #fff;
-  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
-.booking-form button:hover {
-  background-color: #5a22b5;
+/* Left panel (heading + content) */
+.bookingprocessleft-panel h2 {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 25px;
+  color: #222;
+}
+
+/* Group wrapper for each input */
+.bookingprocessform-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.bookingprocessform-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 1rem;
+  color: #111;
+}
+
+/* Input styling */
+.form-input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1.5px solid #ccc;
+  font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.95);
+  color: #000;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  border-color: #2f5ef7;
+  box-shadow: 0 0 5px rgba(47, 94, 247, 0.3);
+  outline: none;
+}
+
+/* Submit button */
+.bookingprocesssubmit-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #2b7af1;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.bookingprocesssubmit-btn:hover {
+  background-color: #003c84ec;
 }
 
 /* Confirmation message */
-.confirmation-message p {
-  font-size: 1rem;
-  margin-top: 10px;
+.bookingprocessconfirmation-message {
+  text-align: center;
+  background-color: rgba(198, 239, 206, 0.9);
+  padding: 25px;
+  border-radius: 10px;
+  border: 1px solid #b5dfb3;
+  color: #155724;
+}
+
+.bookingprocessconfirmation-message p {
+  font-size: 1.1rem;
+  margin: 12px 0;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+  .booking-container {
+    padding: 25px 20px;
+  }
+
+  .bookingprocessleft-panel h2 {
+    font-size: 20px;
+  }
+
+  .form-input,
+  .bookingprocesssubmit-btn {
+    font-size: 15px;
+  }
 }

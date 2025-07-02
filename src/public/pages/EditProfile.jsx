@@ -1,10 +1,10 @@
-    import React, { useState, useEffect } from 'react';
-    import '../../css/EditProfile.css';
+import React, { useState, useEffect } from 'react';
+import '../../css/EditProfile.css';
 
     const BACKEND_URL = 'http://localhost:5000';
 
     const EditProfile = () => {
-    const userId = localStorage.getItem('userId');
+    const user_id = localStorage.getItem('userId');
 
     const [userData, setUserData] = useState({
         name: '',
@@ -23,7 +23,7 @@
     const [imagePreview, setImagePreview] = useState('');
 
     useEffect(() => {
-        if (!userId) {
+        if (!user_id) {
         setError('User not logged in');
         setLoading(false);
         return;
@@ -31,33 +31,33 @@
 
         const fetchUserData = async () => {
         try {
-            const res = await fetch(`${BACKEND_URL}/api/users/${userId}`);
+            const res = await fetch(`${BACKEND_URL}/api/users/${user_id}`);
             const contentType = res.headers.get('content-type');
             if (!contentType || !contentType.includes('application/json')) {
-                const text = await res.text();
+            const text = await res.text();
             throw new Error(`Expected JSON but got:\n${text.substring(0, 200)}`);
             }
             if (!res.ok) throw new Error('Failed to fetch user data');
 
-                const data = await res.json();
+            const data = await res.json();
 
             setUserData({
-                name: data.user.name || '',
-                email: data.user.email || '',
-                contact: data.user.contact || '',
-                address: data.user.address || '',
-                role: data.user.role || '',
-                password: '',
-                profile_image_url: data.user.profile_image_url || '',
+            name: data.user.name || '',
+            email: data.user.email || '',
+            contact: data.user.contact || '',
+            address: data.user.address || '',
+            role: data.user.role || '',
+            password: '',
+            profile_image_url: data.user.profile_image_url || '',
             });
 
             setImagePreview(
-                data.user.profile_image_url
-                    ? data.user.profile_image_url.startsWith('http')
-                    ? data.user.profile_image_url
-                    : BACKEND_URL + data.user.profile_image_url
-                    : ''
-                );
+            data.user.profile_image_url
+                ? data.user.profile_image_url.startsWith('http')
+                ? data.user.profile_image_url
+                : BACKEND_URL + data.user.profile_image_url
+                : ''
+            );
         } catch (err) {
             setError(err.message);
         } finally {
@@ -66,58 +66,57 @@
         };
 
         fetchUserData();
-    }, [userId]);
+    }, [user_id]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setUserData((prev) => ({ ...prev, [name]: value }));
     };
-    
+
     const handleImageChange = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+        const file = e.target.files[0];
+        if (!file) return;
 
-    setImageError('');
-    setImageUploading(true);
+        setImageError('');
+        setImageUploading(true);
 
-    // Preview locally
-    const reader = new FileReader();
-    reader.onloadend = () => setImagePreview(reader.result);
-    reader.readAsDataURL(file);
+        // Preview locally
+        const reader = new FileReader();
+        reader.onloadend = () => setImagePreview(reader.result);
+        reader.readAsDataURL(file);
 
-    // Upload image to backend
-    const formData = new FormData();
-    formData.append('profileImage', file);
+        // Upload image to backend
+        const formData = new FormData();
+        formData.append('profileImage', file);
 
-    try {
-        const res = await fetch(`${BACKEND_URL}/api/users/${userId}/profile-image`, {
-        method: 'PUT',
-        body: formData,
+        try {
+        const res = await fetch(`${BACKEND_URL}/api/users/${user_id}/profile-image`, {
+            method: 'PUT',
+            body: formData,
         });
 
         if (!res.ok) {
-        const text = await res.text();
-        throw new Error(text || 'Image upload failed');
+            const text = await res.text();
+            throw new Error(text || 'Image upload failed');
         }
 
         const data = await res.json();
 
         const fullImageUrl = data.imageUrl.startsWith('http')
-        ? data.imageUrl
-        : `${BACKEND_URL}${data.imageUrl}`;
+            ? data.imageUrl
+            : `${BACKEND_URL}${data.imageUrl}`;
 
         setUserData((prev) => ({ ...prev, profile_image_url: fullImageUrl }));
-        localStorage.setItem('profile_image_url', fullImageUrl); // ✅ Save to localStorage
+        localStorage.setItem('profile_image_url', fullImageUrl); // Save to localStorage
 
         setImagePreview(fullImageUrl);
         alert('Profile image updated!');
-    } catch (err) {
+        } catch (err) {
         setImageError(err.message);
-    } finally {
+        } finally {
         setImageUploading(false);
-    }
+        }
     };
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -135,7 +134,7 @@
         }
 
         try {
-        const res = await fetch(`${BACKEND_URL}/api/users/${userId}`, {
+        const res = await fetch(`${BACKEND_URL}/api/users/${user_id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(updatePayload),
@@ -158,19 +157,23 @@
 
     return (
         <div className="edit-profile-container">
-            <h2 className="edit-profile-title">Edit Profile</h2>
+        <h2 className="edit-profile-title">Edit Profile</h2>
 
         <div className="profile-image-section">
-        <div className="image-preview-wrapper">
-
+            <div className="image-preview-wrapper">
             {imagePreview ? (
-            <img src={imagePreview} alt="Profile" className="profile-image-preview" />
+                <img src={imagePreview} alt="Profile" className="profile-image-preview" />
             ) : (
-            <div className="profile-image-preview placeholder">
-                <span role="img" aria-label="profile placeholder">👤</span>
-            </div>
+                <div className="profile-image-preview placeholder">
+                <span role="img" aria-label="profile placeholder">
+                    👤
+                </span>
+                </div>
             )}
-            <div className="edit-icon-overlay" onClick={() => document.getElementById('hiddenFileInput').click()}>
+            <div
+                className="edit-icon-overlay"
+                onClick={() => document.getElementById('hiddenFileInput').click()}
+            >
                 <i className="fas fa-edit"></i>
             </div>
             <input
@@ -181,11 +184,10 @@
                 onChange={handleImageChange}
                 disabled={imageUploading}
             />
-        </div>
+            </div>
             {imageUploading && <p className="image-uploading-text">Uploading image...</p>}
             {imageError && <p className="image-error-text">{imageError}</p>}
         </div>
-
 
         <form onSubmit={handleSubmit} className="edit-profile-form">
             <div className="form-columns">

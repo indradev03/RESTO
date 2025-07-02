@@ -8,8 +8,7 @@ import authRoutes from './routes/auth.js';
 import userRoutes from './routes/user.js';
 import adminRoutes from './routes/adminRoute.js';
 import tableRoutes from './routes/table/tableRoute.js';
-import productRoutes from './routes/products/productRoute.js'; // ✅ NEW: import product routes
-
+import productRoutes from './routes/products/productRoute.js';
 dotenv.config();
 
 const app = express();
@@ -37,9 +36,10 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/tables', tableRoutes);
-app.use('/api/products', productRoutes); // ✅ NEW: register product routes
+app.use('/api/products', productRoutes);
 
-// 404 - Not Found
+
+// 404 - Not Found handler
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
@@ -55,7 +55,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Internal Server Error', detail: err.message });
 });
 
-// Server listener
+// Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);

@@ -7,7 +7,7 @@
     export const getUsers = async (req, res) => {
     try {
         const result = await pool.query(
-        'SELECT id, name, email, role, contact, address, profile_image_url FROM resto_users'
+        'SELECT user_id, name, email, role, contact, address, profile_image_url FROM resto_users'
         );
         res.status(200).json({ users: result.rows });
     } catch (err) {
@@ -17,15 +17,15 @@
     };
 
     /**
-     * Get user by ID
+     * Get user by user_id
      */
     export const getById = async (req, res) => {
-    const { id } = req.params;
+    const { user_id } = req.params;
 
     try {
         const result = await pool.query(
-        'SELECT id, name, email, role, contact, address, profile_image_url FROM resto_users WHERE id = $1',
-        [id]
+        'SELECT user_id, name, email, role, contact, address, profile_image_url FROM resto_users WHERE user_id = $1',
+        [user_id]
         );
 
         if (result.rows.length === 0) {
@@ -34,20 +34,20 @@
 
         res.status(200).json({ user: result.rows[0] });
     } catch (err) {
-        console.error('Get user by ID error:', err);
+        console.error('Get user by user_id error:', err);
         res.status(500).json({ error: 'Server error', detail: err.message });
     }
     };
 
     /**
-     * Update user by ID
+     * Update user by user_id
      */
     export const update = async (req, res) => {
-    const { id } = req.params;
+    const { user_id } = req.params;
     const { name, email, password, contact, address, role } = req.body;
 
     try {
-        const existingResult = await pool.query('SELECT * FROM resto_users WHERE id = $1', [id]);
+        const existingResult = await pool.query('SELECT * FROM resto_users WHERE user_id = $1', [user_id]);
         if (existingResult.rows.length === 0) {
         return res.status(404).json({ error: 'User not found' });
         }
@@ -68,8 +68,8 @@
         const updateQuery = `
         UPDATE resto_users
         SET name = $1, email = $2, password = $3, contact = $4, address = $5, role = $6
-        WHERE id = $7
-        RETURNING id, name, email, role, contact, address, profile_image_url
+        WHERE user_id = $7
+        RETURNING user_id, name, email, role, contact, address, profile_image_url
         `;
 
         const updatedResult = await pool.query(updateQuery, [
@@ -79,7 +79,7 @@
         updatedContact,
         updatedAddress,
         updatedRole,
-        id,
+        user_id,
         ]);
 
         res.status(200).json({
@@ -93,18 +93,18 @@
     };
 
     /**
-     * Delete user by ID
+     * Delete user by user_id
      */
     export const deleteById = async (req, res) => {
-    const { id } = req.params;
+    const { user_id } = req.params;
 
     try {
-        const existing = await pool.query('SELECT id FROM resto_users WHERE id = $1', [id]);
+        const existing = await pool.query('SELECT user_id FROM resto_users WHERE user_id = $1', [user_id]);
         if (existing.rows.length === 0) {
         return res.status(404).json({ error: 'User not found' });
         }
 
-        await pool.query('DELETE FROM resto_users WHERE id = $1', [id]);
+        await pool.query('DELETE FROM resto_users WHERE user_id = $1', [user_id]);
 
         res.status(200).json({ message: 'User deleted successfully' });
     } catch (err) {
@@ -114,10 +114,10 @@
     };
 
     /**
-     * Update user profile image by ID
+     * Update user profile image by user_id
      */
     export const updateUserImage = async (req, res) => {
-    const { id } = req.params;
+    const { user_id } = req.params;
 
     if (!req.file) {
         console.log('No file received');
@@ -125,16 +125,16 @@
     }
 
     const profileImageUrl = `/uploads/${req.file.filename}`;
-    console.log('Saving image URL to DB:', profileImageUrl, 'for user id:', id);
+    console.log('Saving image URL to DB:', profileImageUrl, 'for user user_id:', user_id);
 
     try {
         const result = await pool.query(
-        'UPDATE resto_users SET profile_image_url = $1 WHERE id = $2 RETURNING id, profile_image_url',
-        [profileImageUrl, id]
+        'UPDATE resto_users SET profile_image_url = $1 WHERE user_id = $2 RETURNING user_id, profile_image_url',
+        [profileImageUrl, user_id]
         );
 
         if (result.rowCount === 0) {
-        console.log('User not found in DB for id:', id);
+        console.log('User not found in DB for user_id:', user_id);
         return res.status(404).json({ error: 'User not found' });
         }
 

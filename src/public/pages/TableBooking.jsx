@@ -59,7 +59,7 @@ const TableBooking = () => {
     if (table.status !== "Available") return;
     if (isLoggedIn) {
       localStorage.setItem("hasNewBooking", "true");
-      navigate(`/book/${table.id}`);
+      navigate(`/book/${table.table_id}`);
     } else {
       navigate("/auth/login");
     }
@@ -96,13 +96,13 @@ const TableBooking = () => {
         </thead>
         <tbody>
           {tables.map((table) => (
-            <tr key={table.id}>
-              <td>{table.id}</td>
+            <tr key={table.table_id}>
+              <td>{table.table_id}</td>
               <td>
                 {table.image_url ? (
                   <img
                     src={`http://localhost:5000${table.image_url}`}
-                    alt={`Table ${table.id}`}
+                    alt={`Table ${table.table_id}`}
                     className="table-thumbnail"
                   />
                 ) : (
@@ -124,7 +124,7 @@ const TableBooking = () => {
               <td>
                 <button
                   className="more-btn"
-                  onClick={() => showDetails(table.id)}
+                  onClick={() => showDetails(table.table_id)}
                   disabled={detailLoading}
                 >
                   More
@@ -157,7 +157,7 @@ const TableBooking = () => {
                 {selectedTable.image_url && (
                   <img
                     src={`http://localhost:5000${selectedTable.image_url}`}
-                    alt={`Table ${selectedTable.id}`}
+                    alt={`Table ${selectedTable.table_id}`}
                     className="popup-image"
                   />
                 )}
@@ -165,7 +165,7 @@ const TableBooking = () => {
                 <div className="details-group">
                   <div className="detail-row">
                     <div className="detail-label">Table Number:</div>
-                    <div className="detail-value">{selectedTable.id}</div>
+                    <div className="detail-value">{selectedTable.table_id}</div>
                   </div>
                   <div className="detail-row">
                     <div className="detail-label">Name:</div>

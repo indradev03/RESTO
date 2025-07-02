@@ -13,7 +13,10 @@
         return res.status(400).json({ error: 'Name, email, and password are required' });
         }
 
-        const existingUser = await pool.query('SELECT 1 FROM resto_users WHERE email = $1', [email]);
+        const existingUser = await pool.query(
+        'SELECT 1 FROM resto_users WHERE email = $1',
+        [email]
+        );
         if (existingUser.rows.length > 0) {
         return res.status(409).json({ error: 'Email already registered' });
         }
@@ -23,13 +26,13 @@
         const result = await pool.query(
         `INSERT INTO resto_users (name, email, password, role, contact, address)
         VALUES ($1, $2, $3, $4, $5, $6)
-        RETURNING id, name, email, role, contact, address`,
+        RETURNING user_id, name, email, role, contact, address`,
         [name, email, hashedPassword, role, contact || null, address || null]
         );
 
         const newUser = result.rows[0];
 
-        const token = jwt.sign({ id: newUser.id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+        const token = jwt.sign({ user_id: newUser.user_id }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
         res.status(201).json({
         message: 'User registered successfully',
@@ -65,13 +68,13 @@
         return res.status(401).json({ error: 'Invalid email or password' });
         }
 
-        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+        const token = jwt.sign({ user_id: user.user_id }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
         res.status(200).json({
         message: 'Login successful',
         token,
         user: {
-            id: user.id,
+            user_id: user.user_id,
             name: user.name,
             email: user.email,
             role: user.role,

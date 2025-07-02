@@ -45,17 +45,18 @@
             setError(result.message || 'Login failed');
         } else {
             const { token, user } = result;
-            const { email: returnedEmail, name, id } = user || {}; // <-- get id here
+            const { email: returnedEmail, name, user_id } = user || {}; // <-- use user_id here
 
             // Save important info to localStorage
             localStorage.setItem('token', token);
             localStorage.setItem('role', role);
             localStorage.setItem('email', returnedEmail || email);
             localStorage.setItem('name', name || '');
-            localStorage.setItem('userId', id);  // <-- save userId here!
+            localStorage.setItem('userId', user_id);  // <-- save user_id here
 
             navigate(role === 'admin' ? '/admin' : '/user');
         }
+
         } catch (err) {
         setError('Network error. Please try again.');
         } finally {
