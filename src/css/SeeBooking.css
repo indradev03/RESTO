@@ -2,32 +2,38 @@
   padding: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #333;
+  margin-top: 50px;
   background: #f7faff;
   border-radius: 8px;
-  max-width: 1300px;
-
-  margin-left: 330px;
+    max-width: 1280px;
+    margin-left: 350px;
   box-shadow: 0 2px 8px rgba(0, 123, 255, 0.15);
 }
 
+/* Title styling */
 .seebooking-title {
   text-align: center;
   margin-bottom: 20px;
   color: #0d6efd; /* Bootstrap primary blue */
   text-transform: uppercase;
   letter-spacing: 1.2px;
+  font-weight: 700;
 }
 
+/* Table base styling */
 .seebooking-table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 12px;
+  border-spacing: 0 12px; /* vertical spacing between rows */
   background: white;
   border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 0 10px rgb(13 110 253 / 0.2);
+  overflow: hidden; /* ensure rounded corners */
+  box-shadow: 0 0 10px rgba(13, 110, 253, 0.2);
+  /* Optional: add responsive behavior */
+  table-layout: fixed;
 }
 
+/* Table header row */
 .seebooking-table thead tr {
   background-color: #0d6efd;
   color: white;
@@ -36,23 +42,28 @@
   letter-spacing: 0.05em;
 }
 
+/* Table header and data cells */
 .seebooking-th,
 .seebooking-td {
   padding: 14px 18px;
   text-align: center;
   vertical-align: middle;
+  word-wrap: break-word; /* prevent overflow */
 }
 
+/* Table body rows */
 .seebooking-table tbody tr {
   background: #e9f0ff;
   transition: background-color 0.3s ease;
   border-radius: 8px;
 }
 
+/* Hover effect for rows */
 .seebooking-table tbody tr:hover {
   background: #d0e3ff;
 }
 
+/* Delete button styling */
 .seebooking-delete-btn {
   background-color: #dc3545; /* Bootstrap danger red */
   border: none;
@@ -62,17 +73,21 @@
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.25s ease;
+  user-select: none;
 }
 
+/* Delete button hover */
 .seebooking-delete-btn:hover:not(:disabled) {
   background-color: #bb2d3b;
 }
 
+/* Disabled delete button */
 .seebooking-delete-btn:disabled {
   background-color: #f5c6cb;
   cursor: not-allowed;
 }
 
+/* Messages (loading, error, no bookings) */
 .seebooking-loading,
 .seebooking-error,
 .seebooking-no-bookings {

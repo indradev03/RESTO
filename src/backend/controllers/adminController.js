@@ -74,3 +74,32 @@ import pool from '../database/db.js'; // your pg.Pool
         res.status(500).json({ message: 'Error fetching admins', error: err.message });
     }
     };
+    // Dashboard stats
+    export const getAdminDashboardStats = async (req, res) => {
+    try {
+        console.log("📊 /api/admin/stats endpoint hit");
+
+        const [productsRes, tablesRes, bookingsRes, usersRes] = await Promise.all([
+        pool.query('SELECT COUNT(*) FROM resto_products'),
+        pool.query('SELECT COUNT(*) FROM restaurant_tables'),
+        pool.query('SELECT COUNT(*) FROM bookings WHERE date = CURRENT_DATE'),
+        pool.query('SELECT COUNT(*) FROM resto_users'),
+        ]);
+
+        // Defensive fallback if any query returns no rows (unlikely but safe)
+        const productsCount = productsRes.rows[0]?.count ?? 0;
+        const tablesCount = tablesRes.rows[0]?.count ?? 0;
+        const bookingsCount = bookingsRes.rows[0]?.count ?? 0;
+        const usersCount = usersRes.rows[0]?.count ?? 0;
+
+        res.status(200).json({
+        products: parseInt(productsCount, 10),
+        tables: parseInt(tablesCount, 10),
+        bookingsToday: parseInt(bookingsCount, 10),
+        users: parseInt(usersCount, 10),
+        });
+    } catch (err) {
+        console.error("❌ Error in dashboard stats:", err);
+        res.status(500).json({ message: 'Failed to fetch admin dashboard stats', error: err.message });
+    }
+    };

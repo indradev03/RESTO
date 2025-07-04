@@ -7,6 +7,5 @@
         scroll-padding-top: 100px;
         box-sizing: border-box;
         font-family: 'Times New Roman', Times, serif;
-        background: linear-gradient(to top right,  rgba(118, 180, 243, 0.562), #f6f6f6, #edf2f7,#f4d7d737);
         overflow-x: hidden;
     }

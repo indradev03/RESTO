@@ -22,7 +22,7 @@
 
 .add-product-container {
   margin-left: 330px;
-  /* padding: 20px; */
+  padding: 20px; 
   background-color: transparent;
   min-height: 100vh;
   box-sizing: border-box;

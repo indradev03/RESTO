@@ -1,14 +1,19 @@
 import React from 'react';
 import './StatCard.css';
 
-const StatCard = ({ icon, label, value, bg }) => (
-  <div className="stat-card">
-    <div className="stat-icon" style={{ backgroundColor: bg }}>{icon}</div>
-    <div>
-      <p className="stat-label">{label}</p>
-      <h3 className="stat-value">{value}</h3>
+const StatCard = ({ icon, label, value, bg }) => {
+  return (
+    <div className="stat-card" style={{ backgroundColor: bg }}>
+      <div className="stat-card-icon">{icon}</div>
+      <div className="stat-card-content">
+        <div className="stat-card-label">{label}</div>
+        <div className="stat-card-value">{value}</div>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default StatCard;
+
+
+

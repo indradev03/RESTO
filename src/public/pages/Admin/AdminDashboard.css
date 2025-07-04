@@ -1,45 +1,84 @@
-
+/* Container and layout */
 .admin-dashboard-container {
   margin-left: 330px;
-  margin-top: 0;
-  /* padding: 20px; */
-  /* background-color: #f9f9f9; */
+  margin-top: 60px;
   min-height: 100vh;
   box-sizing: border-box;
-
+  padding: 20px 30px;
+  font-family: Arial, sans-serif;
 }
 
-/* Responsive margin-left for smaller screens */
+/* Responsive margin-left and padding for smaller screens */
 @media (max-width: 768px) {
   .admin-dashboard-container {
     margin-left: 0;
-    padding: 15px;
+    padding: 15px 20px;
   }
 }
 
-
-.dashboard-container {
-  display: flex;
-  font-family: Arial, sans-serif;
-  min-height: 100vh;
-}
-
-.dashboard-main {
-  flex-grow: 1;
-  padding: 2rem;
-  /* background-color: #ffffff; */
-}
-
+/* Stat cards container with column layout */
 .stat-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
+  display: flex;             /* use flexbox instead of grid */
+  flex-direction: column;    /* stack vertically */
+  gap: 1.5rem;               /* space between cards */
   margin-bottom: 2rem;
+  max-width: 1500px;          /* optional max width */
 }
-.dashboard-header {
-  background-color: #2563eb;
-  color: white;
+
+/* Stat Card Styling */
+.stat-card {
+  display: flex;
+  align-items: center; /* vertically center icon and text */
+  padding: 1rem 1.5rem;
   border-radius: 8px;
-  padding: 1.5rem;
-  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: white;
+  cursor: default;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  background-color: #0d6efd; /* bootstrap primary blue */
+}
+
+/* Optional hover effect */
+.stat-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
+}
+
+/* Icon container */
+.stat-card-icon {
+  font-size: 2.5rem;
+  margin-right: 1rem;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+/* Text container */
+.stat-card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Label text */
+.stat-card-label {
+  font-size: 1rem;
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+/* Value text */
+.stat-card-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-top: 0.1rem;
+}
+
+/* Loading and error message styles */
+.loading, .error {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #555;
+  padding: 1rem;
+  text-align: center;
 }
