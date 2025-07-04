@@ -5,16 +5,19 @@
      * Get all users (safe fields)
      */
     export const getUsers = async (req, res) => {
+    console.log('getUsers controller hit');
     try {
         const result = await pool.query(
         'SELECT user_id, name, email, role, contact, address, profile_image_url FROM resto_users'
         );
+        console.log('Users fetched:', result.rows.length);
         res.status(200).json({ users: result.rows });
     } catch (err) {
         console.error('Get users error:', err);
         res.status(500).json({ error: 'Server error', detail: err.message });
     }
     };
+
 
     /**
      * Get user by user_id

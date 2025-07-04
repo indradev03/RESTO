@@ -1,0 +1,166 @@
+/* Container */
+.total-users-container {
+  max-width: 1270px;
+  margin-left: 350px;
+  margin-top: 50px;
+  padding: 1rem 1.5rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #222;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.1);
+}
+
+.total-users-container h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  font-size: 2rem;
+  color: #007bff;
+}
+
+/* Grid for user cards */
+.users-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.8rem;
+}
+
+/* Individual user card */
+.user-card {
+  background: #f9faff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgb(0 123 255 / 0.15);
+  padding: 1.5rem 1.8rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.user-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 36px rgb(0 123 255 / 0.3);
+}
+
+/* Avatar wrapper and image */
+.avatar-wrapper {
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 10px rgb(0 123 255 / 0.4);
+  background: #e3e9ff;
+  display: block;
+}
+
+/* Placeholder avatar if no image */
+.avatar.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: #007bff;
+  background: #d0dfff;
+  font-weight: 700;
+  user-select: none;
+}
+
+/* User info text */
+.user-info h3 {
+  margin: 0 0 0.2rem 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #004a99;
+}
+
+.user-info p {
+  margin: 0.2rem 0;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+.user-info .email a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.user-info .email a:hover {
+  text-decoration: underline;
+}
+
+.user-info .address {
+  color: #666;
+}
+
+/* Loading and error messages */
+.loading,
+.no-users,
+.error-message {
+  text-align: center;
+  font-size: 1.3rem;
+  margin: 5rem 0;
+  color: #007bff;
+  font-weight: 600;
+}
+
+.error-message {
+  color: #d93025;
+}
+
+@media (max-width: 600px) {
+  .user-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .user-info h3 {
+    font-size: 1.1rem;
+  }
+
+  .avatar {
+    width: 60px;
+    height: 60px;
+  }
+}
+.delete-btn {
+  background: transparent;
+  border: none;
+  color: #d93025;
+  cursor: pointer;
+  font-size: 1.3rem;
+  padding: 0.2rem 0.4rem;
+  transition: color 0.3s ease;
+  align-self: flex-start;
+  margin-left: auto;
+}
+
+.delete-btn:hover:not(:disabled) {
+  color: #a32218;
+}
+
+.delete-btn:disabled {
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+/* To position the button nicely on the card */
+.user-card {
+  position: relative;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  padding-right: 2.8rem; /* leave space for delete button */
+}
+
+.delete-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}

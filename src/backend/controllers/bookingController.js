@@ -104,3 +104,22 @@ export const deleteBookingById = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+
+/**
+ * Get count of today's bookings
+ */
+export const getTodayBookingCount = async (req, res) => {
+  try {
+    const query = `
+      SELECT COUNT(*) 
+      FROM bookings 
+      WHERE date = CURRENT_DATE;
+    `;
+    const result = await pool.query(query);
+    const count = parseInt(result.rows[0].count, 10);
+    res.json({ bookingsToday: count });
+  } catch (error) {
+    console.error('Error fetching today\'s booking count:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};

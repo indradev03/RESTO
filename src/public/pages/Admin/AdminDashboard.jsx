@@ -19,8 +19,15 @@ const AdminDashboard = () => {
         const res = await fetch('http://localhost:5000/api/admin/stats');
         if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
         const data = await res.json();
-        console.log("📊 Stats fetched:", data);
-        setStats(data);
+        console.log('📊 Stats fetched:', data);
+
+        // Defensive: make sure all keys exist and are numbers
+        setStats({
+          products: Number(data.products) || 0,
+          tables: Number(data.tables) || 0,
+          bookingsToday: Number(data.bookingsToday) || 0,
+          users: Number(data.users) || 0,
+        });
         setError(null);
       } catch (err) {
         console.error('❌ Error fetching stats:', err);
