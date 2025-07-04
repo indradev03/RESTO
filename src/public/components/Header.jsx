@@ -94,7 +94,6 @@ const Header = () => {
                     <ul className="header-links">
                         <li><Link to="/Aboutus">About us</Link></li>
                         <li><Link to="/">Home</Link></li>
-                        <li><Link to="/SpecialOffers">Special Offers</Link></li>
                         <li><Link to="/menu">Menu</Link></li>
                         <li><Link to="/tables">Tables</Link></li>
                     </ul>

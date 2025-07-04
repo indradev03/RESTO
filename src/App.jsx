@@ -9,9 +9,9 @@ import MenuSection from './public/components/MenuSection';
 import Footer from './public/components/Footer';
 
 import AboutUs from './public/pages/Aboutus';
-import SpecialOffers from './public/pages/SpecialOffers';
-import Jobs from './public/pages/Jobs';
-import Contact from './public/pages/Contact';
+// import SpecialOffers from './public/pages/SpecialOffers';
+// import Jobs from './public/pages/Jobs';
+// import Contact from './public/pages/Contact';
 import Menu from './public/pages/Menu';
 
 // import LoginPage from './public/pages/LoginPage';
@@ -66,9 +66,9 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Aboutus" element={<AboutUs />} />
-          <Route path="/specialoffers" element={<SpecialOffers />} />
+          {/* <Route path="/specialoffers" element={<SpecialOffers />} />
           <Route path="/jobs" element={<Jobs />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route path="/contact" element={<Contact />} /> */}
           <Route path="/menu" element={<Menu />} />
           <Route path="/booking" element={<BookingPage />} />  
           <Route path="/profile/edit" element={<EditProfile />} />
