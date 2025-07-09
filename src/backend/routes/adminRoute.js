@@ -4,6 +4,8 @@ import {
   getAdminByEmail,
   getAllAdmins,
   getAdminDashboardStats,
+  getRecentActivities, // ✅ Added
+  deleteRecentActivity,
 } from '../controllers/adminController.js';
 
 import {
@@ -13,6 +15,8 @@ import {
   deleteById,
   updateUserImage,
 } from '../controllers/userController.js';
+
+import upload from '../middleware/upload.js'; // ✅ Already correct
 
 const router = express.Router();
 
@@ -28,24 +32,17 @@ router.get('/email/:email', getAdminByEmail);
 // 📋 Get all admins
 router.get('/', getAllAdmins);
 
+// 🆕 Recent Activities
+router.get('/recent-activities', getRecentActivities);
+// Delete recent activity by id
+router.delete('/recent-activities/:id', deleteRecentActivity);
+
+
 // --- User management routes under /users ---
-
-// Get all users
 router.get('/users', getUsers);
-
-// Get user by ID
 router.get('/users/:user_id', getById);
-
-// Update user by ID
 router.put('/users/:user_id', update);
-
-// Delete user by ID
 router.delete('/users/:user_id', deleteById);
-
-// Update user profile image by ID (assuming multer middleware for file upload is used)
-// Example middleware: upload.single('profileImage')
-import upload from '../middleware/upload.js'; // Adjust path
-
 router.put('/users/:user_id/image', upload.single('profileImage'), updateUserImage);
 
 export default router;

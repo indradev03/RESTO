@@ -19,8 +19,15 @@ export const createBooking = async (req, res) => {
     `;
     const values = [table_id, user_id, name, phone, date, time];
     const result = await pool.query(query, values);
+    const newBooking = result.rows[0];
 
-    res.status(201).json({ booking: result.rows[0] });
+    // Log recent activity for booking creation
+    await pool.query(
+      'INSERT INTO recent_activities (type, message) VALUES ($1, $2)',
+      ['booking', `Table ${table_id} booked for ${time} on ${date}`]
+    );
+
+    res.status(201).json({ booking: newBooking });
   } catch (error) {
     console.error('Error creating booking:', error);
     res.status(500).json({ message: 'Internal server error' });

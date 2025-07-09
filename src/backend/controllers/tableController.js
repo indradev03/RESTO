@@ -12,6 +12,12 @@ export const addTable = async (req, res) => {
       [name, parseInt(seats), location, description, image_url, status || 'For Booking']
     );
 
+    // Log activity
+    await pool.query(
+      'INSERT INTO recent_activities (type, message) VALUES ($1, $2)',
+      ['table', `New table added: ${name}`]
+    );
+
     res.status(201).json(result.rows[0]);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -65,6 +71,12 @@ export const updateTable = async (req, res) => {
       [name, parseInt(seats), location, description, updatedImage, status || existing.rows[0].status, table_id]
     );
 
+    // Log activity
+    await pool.query(
+      'INSERT INTO recent_activities (type, message) VALUES ($1, $2)',
+      ['table', `Table updated: ${name}`]
+    );
+
     res.json(result.rows[0]);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -75,11 +87,19 @@ export const updateTable = async (req, res) => {
 export const deleteTable = async (req, res) => {
   try {
     const { table_id } = req.params;
-    const result = await pool.query('DELETE FROM restaurant_tables WHERE table_id = $1', [table_id]);
 
-    if (result.rowCount === 0) {
+    const existing = await pool.query('SELECT * FROM restaurant_tables WHERE table_id = $1', [table_id]);
+    if (existing.rows.length === 0) {
       return res.status(404).json({ error: 'Table not found' });
     }
+
+    await pool.query('DELETE FROM restaurant_tables WHERE table_id = $1', [table_id]);
+
+    // Log activity
+    await pool.query(
+      'INSERT INTO recent_activities (type, message) VALUES ($1, $2)',
+      ['table', `Table deleted: ${existing.rows[0].name}`]
+    );
 
     res.json({ message: 'Table deleted successfully' });
   } catch (err) {

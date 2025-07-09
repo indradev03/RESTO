@@ -112,3 +112,47 @@
         res.status(500).json({ message: 'Failed to fetch admin dashboard stats', error: err.message });
     }
     };
+
+
+// controllers/adminController.js
+    export const getRecentActivities = async (req, res) => {
+    try {
+        const result = await pool.query(`
+        SELECT id, type, message, created_at AS timestamp
+        FROM recent_activities
+        ORDER BY created_at DESC
+        LIMIT 20
+        `);
+        res.status(200).json(result.rows);
+    } catch (err) {
+        console.error('❌ Error fetching recent activities:', err.stack);
+        res.status(500).json({
+        message: 'Failed to fetch recent activities',
+        error: err.message,
+        });
+    }
+    };
+
+
+// controllers/adminController.js
+
+export const deleteRecentActivity = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Delete the activity with the given id
+    const result = await pool.query(
+      'DELETE FROM recent_activities WHERE id = $1 RETURNING *',
+      [id]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: 'Recent activity not found' });
+    }
+
+    res.status(200).json({ message: 'Recent activity deleted', deletedActivity: result.rows[0] });
+  } catch (err) {
+    console.error('❌ Error deleting recent activity:', err);
+    res.status(500).json({ message: 'Failed to delete recent activity', error: err.message });
+  }
+};
