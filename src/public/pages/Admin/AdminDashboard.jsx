@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import StatCard from './StatCard';
+import DashboardCharts from './DashboardCharts';
 import { FaBoxOpen, FaTable, FaCalendarAlt, FaUsers } from 'react-icons/fa';
 import './AdminDashboard.css';
 
@@ -21,7 +22,6 @@ const AdminDashboard = () => {
         const data = await res.json();
         console.log('📊 Stats fetched:', data);
 
-        // Defensive: make sure all keys exist and are numbers
         setStats({
           products: Number(data.products) || 0,
           tables: Number(data.tables) || 0,
@@ -51,6 +51,9 @@ const AdminDashboard = () => {
         <StatCard icon={<FaCalendarAlt />} label="Today's Bookings" value={stats.bookingsToday} bg="#8b5cf6" />
         <StatCard icon={<FaUsers />} label="Active Users" value={stats.users} bg="#f97316" />
       </div>
+
+      {/* Dashboard Charts */}
+      <DashboardCharts stats={stats} />
     </div>
   );
 };

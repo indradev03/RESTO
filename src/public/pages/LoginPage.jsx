@@ -16,11 +16,31 @@
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [fieldErrors, setFieldErrors] = useState({ email: '', password: '' });
 
     const handleLogin = async (e) => {
         e.preventDefault();
         setError('');
+        setFieldErrors({ email: '', password: '' });
         setLoading(true);
+
+        let hasError = false;
+
+        // Frontend validation
+        if (!email.trim()) {
+        setFieldErrors((prev) => ({ ...prev, email: 'Email is required' }));
+        hasError = true;
+        }
+
+        if (!password) {
+        setFieldErrors((prev) => ({ ...prev, password: 'Password is required' }));
+        hasError = true;
+        }
+
+        if (hasError) {
+        setLoading(false);
+        return;
+        }
 
         const loginUrl =
         role === 'admin'
@@ -42,21 +62,29 @@
         const result = await response.json();
 
         if (!response.ok) {
-            setError(result.message || 'Login failed');
+            const errorMsg =
+            result?.error || result?.message || 'Login failed. Please try again.';
+
+            // Map backend error to fields if possible
+            if (errorMsg.toLowerCase().includes('email')) {
+            setFieldErrors((prev) => ({ ...prev, email: errorMsg }));
+            } else if (errorMsg.toLowerCase().includes('password')) {
+            setFieldErrors((prev) => ({ ...prev, password: errorMsg }));
+            } else {
+            setError(errorMsg);
+            }
         } else {
             const { token, user } = result;
-            const { email: returnedEmail, name, user_id } = user || {}; // <-- use user_id here
+            const { email: returnedEmail, name, user_id } = user || {};
 
-            // Save important info to localStorage
             localStorage.setItem('token', token);
             localStorage.setItem('role', role);
             localStorage.setItem('email', returnedEmail || email);
             localStorage.setItem('name', name || '');
-            localStorage.setItem('userId', user_id);  // <-- save user_id here
+            localStorage.setItem('userId', user_id);
 
             navigate(role === 'admin' ? '/admin' : '/user');
         }
-
         } catch (err) {
         setError('Network error. Please try again.');
         } finally {
@@ -66,6 +94,7 @@
 
     const handleNavigate = (path) => {
         setError('');
+        setFieldErrors({ email: '', password: '' });
         navigate(`/auth/${path}`);
     };
 
@@ -79,7 +108,9 @@
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className={fieldErrors.email ? 'input-error' : ''}
             />
+            {fieldErrors.email && <p className="input-error-text">{fieldErrors.email}</p>}
 
             <label>Password:</label>
             <div className="password-input-container">
@@ -88,6 +119,7 @@
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                className={fieldErrors.password ? 'input-error' : ''}
             />
             <span
                 className="toggle-password-icon"
@@ -105,6 +137,7 @@
                 {showPassword ? <FiEye /> : <FiEyeOff />}
             </span>
             </div>
+            {fieldErrors.password && <p className="input-error-text">{fieldErrors.password}</p>}
 
             <label className="role-label">Login As:</label>
             <select

@@ -1,28 +1,38 @@
-    import bcrypt from 'bcryptjs';
-    import jwt from 'jsonwebtoken';
-    import pool from '../database/db.js';
+        import bcrypt from 'bcryptjs';
+        import jwt from 'jsonwebtoken';
+        import pool from '../database/db.js';
 
-    /**
-     * Signup a new user
-     */
     export const signup = async (req, res) => {
     const { name, email, password, contact, address, role = 'user' } = req.body;
 
     try {
-        if (!name || !email || !password) {
-        return res.status(400).json({ error: 'Name, email, and password are required' });
+        // Field validations
+        if (!name.trim()) {
+        return res.status(400).json({ error: 'Name is required' });
         }
 
-        const existingUser = await pool.query(
-        'SELECT 1 FROM resto_users WHERE email = $1',
-        [email]
-        );
+        if (!email.trim()) {
+        return res.status(400).json({ error: 'Email is required' });
+        }
+
+        // Basic email format validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+        return res.status(400).json({ error: 'Invalid email format' });
+        }
+
+        if (!password || password.length < 6) {
+        return res.status(400).json({ error: 'Password must be at least 6 characters' });
+        }
+
+        // Check if user already exists
+        const existingUser = await pool.query('SELECT 1 FROM resto_users WHERE email = $1', [email]);
         if (existingUser.rows.length > 0) {
-        return res.status(409).json({ error: 'Email already registered' });
+        return res.status(409).json({ error: 'Email is already registered' });
         }
 
+        // Hash and insert
         const hashedPassword = await bcrypt.hash(password, 10);
-
         const result = await pool.query(
         `INSERT INTO resto_users (name, email, password, role, contact, address)
         VALUES ($1, $2, $3, $4, $5, $6)
@@ -31,7 +41,6 @@
         );
 
         const newUser = result.rows[0];
-
         const token = jwt.sign({ user_id: newUser.user_id }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
         res.status(201).json({
@@ -44,28 +53,34 @@
         res.status(500).json({ error: 'Server error', detail: err.message });
     }
     };
-
-    /**
-     * Login user
-     */
+    
     export const login = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        if (!email || !password) {
-        return res.status(400).json({ error: 'Email and password are required' });
+        if (!email.trim()) {
+        return res.status(400).json({ error: 'Email is required' });
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+        return res.status(400).json({ error: 'Invalid email format' });
+        }
+
+        if (!password) {
+        return res.status(400).json({ error: 'Password is required' });
         }
 
         const result = await pool.query('SELECT * FROM resto_users WHERE email = $1', [email]);
         const user = result.rows[0];
 
         if (!user) {
-        return res.status(401).json({ error: 'Invalid email or password' });
+        return res.status(401).json({ error: 'Email is not registered' });
         }
 
         const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) {
-        return res.status(401).json({ error: 'Invalid email or password' });
+        return res.status(401).json({ error: 'Incorrect password' });
         }
 
         const token = jwt.sign({ user_id: user.user_id }, process.env.JWT_SECRET, { expiresIn: '1d' });

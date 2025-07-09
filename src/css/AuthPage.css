@@ -22,6 +22,8 @@
   height: 100vh;
   width: 100%;
   animation: fadeInUp 0.8s ease-out both;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 /* === Modal Box === */
@@ -29,8 +31,9 @@
   position: relative;
   display: flex;
   justify-content: center;
-  width: 1100px;
-  min-width: 320px;
+  flex-direction: row;
+  width: 100%;
+  max-width: 1100px;
   height: 680px;
   border-radius: 12px;
   overflow: hidden;
@@ -41,36 +44,47 @@
   animation: fadeInUp 0.8s ease-out both;
 }
 
-/* === Image Side === */
+/* === Image Side (Now Always Visible) === */
 .image-side {
   flex: 1;
   background-image: url('../assets/banner.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  min-width: 300px;
+  height: 100%;
   border-top-left-radius: 12px;
   border-bottom-left-radius: 12px;
-  min-width: 300px;
-  display: none;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
+  .login-wrapper {
+    flex-direction: column;
+    height: auto;
+  }
+
   .image-side {
-    display: block;
+    height: 200px;
+    width: 100%;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .auth-content {
+    padding: 30px 20px;
   }
 }
 
 /* === Form Content Area === */
 .auth-content {
   flex: 1;
-  max-width: 500px;
+  max-width: 600px;
   padding: 40px 30px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-/* === Unified Input & Select Styles === */
+/* === Inputs & Selects === */
 input[type="email"],
 input[type="text"],
 input[type="password"],
@@ -103,18 +117,19 @@ select:focus {
   background-color: #fff;
 }
 
-/* === Form Header === */
-h2 {
+/* === Headers === */
+h2,
+.signup-title {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-weight: 700;
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 2vw, 2rem);
   margin-bottom: 25px;
   color: #222;
   text-align: center;
   user-select: none;
 }
 
-/* === Base Form === */
+/* === Form Layout === */
 form {
   display: flex;
   flex-direction: column;
@@ -162,7 +177,7 @@ label,
 /* === Submit Buttons === */
 .login-button,
 .signup-button,
-.sendlink-button{
+.sendlink-button {
   padding: 14px 0;
   font-size: 1.15rem;
   background-color: #007bff;
@@ -198,28 +213,30 @@ label,
   transform: scale(0.97);
 }
 
-/* === Error & Success === */
-.error,
+/* === Errors and Messages === */
+.input-error {
+  border: 1px solid red;
+}
+
+.input-error-text,
 .signup-error {
-  color: #e63946;
-  font-size: 0.95rem;
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+
+.signup-success {
+  color: green;
+  font-size: 0.9rem;
   margin-top: 10px;
-  font-weight: 600;
-  text-align: center;
-  user-select: none;
 }
 
-.signup-success,
-.success-message {
-  color: #2a9d8f;
-  font-size: 1.05rem;
-  margin-top: 12px;
-  text-align: center;
-  font-weight: 700;
-  user-select: none;
+.signup-input.input-error {
+  border: 1px solid red;
 }
 
-/* === Auth Links === */
+/* === Links & Switch Text === */
 .forgot-password-container,
 .signup-container-button,
 .signup-switch-text {
@@ -251,7 +268,32 @@ label,
   outline: none;
 }
 
-/* === Signup Form Specific === */
+/* === Signup Layout === */
+.signup-form-wrapper {
+  max-height: 80vh;
+  overflow-y: auto;
+  padding-right: 10px;
+  position: relative;
+}
+
+.signup-form-scrollable {
+  padding-right: 8px;
+  box-sizing: border-box;
+}
+
+.signup-form-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.signup-form-wrapper::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.signup-form-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 .signup-form {
   max-width: 800px;
   background: transparent;
@@ -260,15 +302,6 @@ label,
   position: relative;
   z-index: 1;
   font-family: inherit;
-}
-
-.signup-title {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 30px;
-  font-weight: 700;
-  color: #222;
-  user-select: none;
 }
 
 .signup-columns {
@@ -286,7 +319,7 @@ label,
 
 /* === Forgot Password === */
 .forgot-password-container h2 {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 2vw, 2rem);
   font-weight: 700;
   text-align: center;
   color: #222;
@@ -323,26 +356,20 @@ label,
   outline: none;
 }
 
-/* === Responsive Adjustments === */
-@media (max-width: 768px) {
-  .forgot-password-container {
-    padding: 25px 20px;
-    margin: 30px 15px;
+/* === Extra Responsive Adjustments === */
+@media (max-width: 480px) {
+  .auth-content {
+    padding: 25px 15px;
   }
 
-  .forgot-password-container h2 {
-    font-size: 1.6rem;
-  }
-
-  .forgot-password-container-button p {
-    font-size: 0.95rem;
+  .login-button,
+  .signup-button,
+  .sendlink-button {
+    font-size: 1rem;
+    padding: 12px 0;
   }
 
   .signup-columns {
-    grid-template-columns: 1fr;
-  }
-
-  .auth-content {
-    padding: 30px 20px;
+    gap: 14px;
   }
 }
