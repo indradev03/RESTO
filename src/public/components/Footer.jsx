@@ -24,7 +24,7 @@
                     <li><a href="/stepsforbooking">How to book a table?</a></li>
                     <li><a href="/Aboutus">About us</a></li>
                     <li><a href="/Contact">Contact us</a></li>
-                    <li><a href="#">FAQ</a></li>
+                    <li><a href="/faq">FAQ</a></li>
                     </ul>
                 </div>
                 </div>

@@ -93,7 +93,7 @@ const BookingPage = () => {
   if (!bookings.length) {
     return (
       <div className="booking-page">
-        <h2>No Bookings Found</h2>
+        <h2 className="booking-title">No Bookings Found</h2>
         <p>You have not made any bookings yet.</p>
       </div>
     );
@@ -101,25 +101,32 @@ const BookingPage = () => {
 
   return (
     <div className="booking-page">
-      <h2>Your Booking Details</h2>
-      {bookings.map((booking) => (
-        <div key={booking.booking_id} className="booking-card">
-          <ul>
-            <li><strong>Table ID:</strong> {booking.table_id}</li>
-            <li><strong>Name:</strong> {booking.name}</li>
-            <li><strong>Phone:</strong> {booking.phone}</li>
-            <li><strong>Date:</strong> {formatDate(booking.date)}</li>
-            <li><strong>Time:</strong> {formatTime(booking.time)}</li>
-          </ul>
-          <button
-            onClick={() => handleCancel(booking.booking_id)}
-            className="cancel-button"
-            disabled={cancellingId === booking.booking_id}
-          >
-            {cancellingId === booking.booking_id ? 'Cancelling...' : 'Cancel Booking'}
-          </button>
-        </div>
-      ))}
+      <h2 className="booking-title">Your Bookings</h2>
+      <div className="booking-grid">
+        {bookings.map((booking) => (
+          <div key={booking.booking_id} className="booking-card">
+            <div className="booking-card-header">
+              <h3>Booking #{booking.booking_id}</h3>
+            </div>
+            <div className="booking-info">
+              <p><span>Table:</span> {booking.table_id}</p>
+              <p><span>Name:</span> {booking.name}</p>
+              <p><span>Phone:</span> {booking.phone}</p>
+              <p><span>Date:</span> {formatDate(booking.date)}</p>
+              <p><span>Time:</span> {formatTime(booking.time)}</p>
+            </div>
+            <div className="booking-actions">
+              <button
+                onClick={() => handleCancel(booking.booking_id)}
+                className="cancel-button"
+                disabled={cancellingId === booking.booking_id}
+              >
+                {cancellingId === booking.booking_id ? 'Cancelling...' : 'Cancel Booking'}
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
