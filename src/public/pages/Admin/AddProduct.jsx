@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../../../css/AddProduct.css';
 
 const API_URL = 'http://localhost:5000/api/products';
@@ -31,7 +33,7 @@ const AddProduct = () => {
       const data = await res.json();
       setProducts(data);
     } catch (err) {
-      console.error('Failed to fetch products:', err);
+      toast.error('Failed to fetch products');
     }
   };
 
@@ -52,7 +54,7 @@ const AddProduct = () => {
     e.preventDefault();
 
     if (!productName || !price) {
-      alert('Please fill all required fields');
+      toast.error('Please fill all required fields');
       return;
     }
 
@@ -78,10 +80,12 @@ const AddProduct = () => {
       }
 
       if (!res.ok) throw new Error('Failed to save product');
+
       await fetchProducts();
+      toast.success(editId ? 'Product updated successfully' : 'Product added successfully');
       resetForm();
     } catch (err) {
-      alert(err.message);
+      toast.error(err.message || 'Something went wrong');
     } finally {
       setLoading(false);
     }
@@ -105,8 +109,9 @@ const AddProduct = () => {
       });
       if (!res.ok) throw new Error('Failed to delete product');
       setProducts(products.filter((p) => p.id !== id));
+      toast.success('Product deleted successfully');
     } catch (err) {
-      alert(err.message);
+      toast.error(err.message || 'Delete failed');
     }
   };
 
@@ -196,6 +201,8 @@ const AddProduct = () => {
           </div>
         </div>
       )}
+
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

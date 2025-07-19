@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { FaTrashAlt } from 'react-icons/fa'; // Import trash icon
+import { FaTrashAlt } from 'react-icons/fa';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './TotalUsers.css';
 
 const TotalUsers = () => {
@@ -22,6 +24,7 @@ const TotalUsers = () => {
       const data = await res.json();
       setUsers(data.users);
     } catch (err) {
+      toast.error(`Error: ${err.message}`);
       setError(err.message);
     } finally {
       setLoading(false);
@@ -32,7 +35,7 @@ const TotalUsers = () => {
     const confirmDelete = window.confirm('Are you sure you want to delete this user?');
     if (!confirmDelete) return;
 
-    setDeletingUserId(userId); // Show loading state on delete icon or disable it
+    setDeletingUserId(userId);
 
     try {
       const res = await fetch(`http://localhost:5000/api/admin/users/${userId}`, {
@@ -44,10 +47,10 @@ const TotalUsers = () => {
         throw new Error(errData.error || 'Failed to delete user');
       }
 
-      // Remove deleted user from state list
       setUsers((prevUsers) => prevUsers.filter((user) => user.user_id !== userId));
+      toast.success('User deleted successfully');
     } catch (err) {
-      alert(`Error deleting user: ${err.message}`);
+      toast.error(`Delete failed: ${err.message}`);
     } finally {
       setDeletingUserId(null);
     }
@@ -98,6 +101,7 @@ const TotalUsers = () => {
           </div>
         ))}
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

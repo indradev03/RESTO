@@ -17,7 +17,8 @@ import Menu from './public/pages/Menu';
 
 // import LoginPage from './public/pages/LoginPage';
 // import SignupPage from './public/pages/SignupPage';
-// import ForgotPassword from './public/pages/ForgotPassword';
+import ForgotPassword from './public/pages/ForgotPasswordForm';
+import ResetPassword from './public/pages/ResetPassword';
 import StepsForBooking from './public/pages/StepsForBooking';
 
 import AdminDashboard from './public/pages/Admin/AdminDashboard';   
@@ -75,6 +76,7 @@ const App = () => {
           <Route path="/menu" element={<Menu />} />
           <Route path="/booking" element={<BookingPage />} />  
           <Route path="/profile/edit" element={<EditProfile />} />
+          
 
           {/* <Route path="/login" element={<LoginPage />} />        */} 
           {/* Route-based Auth Pages */}
@@ -84,6 +86,9 @@ const App = () => {
 
           {/* <Route path="/signup" element={<SignupPage />} />
           <Route path="/forgotpassword" element={<ForgotPassword />} /> */}
+          <Route path="/auth/forgot-password" element={<ForgotPassword />} />
+          <Route path="/auth/reset-password/:token" element={<ResetPassword />} />
+
           <Route path="/stepsforbooking" element={<StepsForBooking />} />
 
           {/* Admin Nested Routes */}

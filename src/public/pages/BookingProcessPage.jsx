@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../../css/BookingProcessPage.css';
 
 const BookingProcessPage = () => {
   const { tableId } = useParams();
   const navigate = useNavigate();
 
-  const user_id = localStorage.getItem('userId'); // ⬅ make sure this key matches your login
+  const user_id = localStorage.getItem('userId');
   const email = localStorage.getItem('email');
 
   const [formData, setFormData] = useState({
@@ -18,7 +20,6 @@ const BookingProcessPage = () => {
 
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   // Redirect if not logged in
   useEffect(() => {
@@ -39,12 +40,11 @@ const BookingProcessPage = () => {
     e.preventDefault();
 
     if (!user_id) {
-      setError('User not logged in');
+      toast.error('User not logged in');
       return;
     }
 
     setLoading(true);
-    setError(null);
 
     const bookingData = {
       table_id: Number(tableId),
@@ -67,15 +67,16 @@ const BookingProcessPage = () => {
         throw new Error(errorData.message || 'Failed to create booking');
       }
 
+      toast.success(`✅ Booking successful for Table ${tableId}`);
       setSubmitted(true);
     } catch (err) {
-      setError(err.message);
+      toast.error(`Booking failed: ${err.message}`);
     } finally {
       setLoading(false);
     }
   };
 
-  // Handle redirect after success
+  // Redirect after success
   useEffect(() => {
     if (submitted) {
       const timer = setTimeout(() => {
@@ -90,6 +91,7 @@ const BookingProcessPage = () => {
       <div className="bookingprocessconfirmation-message">
         <p>✅ Booking successful for Table {tableId}!</p>
         <p>You will be redirected shortly...</p>
+        <ToastContainer position="top-right" autoClose={3000} />
       </div>
     );
   }
@@ -99,8 +101,6 @@ const BookingProcessPage = () => {
       <div className="booking-container">
         <div className="bookingprocessleft-panel">
           <h2>Booking Table {tableId}</h2>
-
-          {error && <p className="error-message">Error: {error}</p>}
 
           <form onSubmit={handleSubmit} className="bookingprocessbooking-form">
             <div className="bookingprocessform-group">
@@ -167,6 +167,7 @@ const BookingProcessPage = () => {
           </form>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

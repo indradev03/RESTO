@@ -1,67 +1,101 @@
-    import React from 'react';
-    import { useNavigate } from 'react-router-dom';
-    import '../../css/AuthPage.css';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import '../../css/AuthPage.css';
 
-    const ForgotPasswordForm = ({ email, setEmail, submitted, setSubmitted, setError }) => {
-    const navigate = useNavigate();
+const ForgotPasswordForm = () => {
+  const navigate = useNavigate();
 
-    const handleForgotPassword = (e) => {
-        e.preventDefault();
-        console.log('Reset link sent to:', email);
-        setSubmitted(true);
+  const [email, setEmail] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-        // Optional: fake error handling
-        setError?.('');
-    };
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-    const handleBackToLogin = () => {
-        setSubmitted(false);
-        setError?.('');
-        navigate('/auth/login');
-    };
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/forgot-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
 
-    return (
-        <>
-        <div className="forgot-password-container">
-            <h2>Forgot Password</h2>
+      const data = await response.json();
 
-            {!submitted ? (
-                <form onSubmit={handleForgotPassword}>
-                <label>Email:</label>
-                <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <button className='sendlink-button'>Send Reset Link</button>
-                </form>
-            ) : (
-                <p className="success-message">A reset link has been sent to your email.</p>
-            )}
-        </div>
+      if (!response.ok) {
+        toast.error(data.error || 'Failed to send reset link.');
+        setLoading(false);
+        return;
+      }
 
-        <hr />
+      setSubmitted(true);
+      toast.success('Reset link sent. Check your email.');
+    } catch (err) {
+      toast.error('Network error. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  const handleBackToLogin = () => {
+    setSubmitted(false);
+    navigate('/auth/login');
+  };
 
-        <div className="forgot-password-container-button">
-            <p>
-                Remembered your password?{' '}
-                <span
-                role="button"
-                tabIndex={0}
-                onClick={handleBackToLogin}
-                onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') handleBackToLogin();
-                }}
-                >
-                Back to Login
-                </span>
-            </p>
-        </div>
-        </>
-    );
-    };
+  return (
+    <>
+      <div className="forgot-password-container" role="main">
+        <h2>Forgot Password</h2>
 
-    export default ForgotPasswordForm;
-    // This component handles the forgot password functionality.
+        {!submitted ? (
+          <form onSubmit={handleForgotPassword} noValidate>
+            <label htmlFor="email">Email:</label>
+            <input
+              id="email"
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+              disabled={loading}
+              aria-label="Email address"
+            />
+
+            <button className="sendlink-button" type="submit" disabled={loading || !email.trim()}>
+              {loading ? 'Sending...' : 'Send Reset Link'}
+            </button>
+          </form>
+        ) : (
+          <p className="success-message" role="alert">
+            If the email exists, a reset link has been sent. Please check your inbox.
+          </p>
+        )}
+      </div>
+
+      <hr />
+
+      <div className="forgot-password-container-button">
+        <p>
+          Remembered your password?{' '}
+          <span
+            role="button"
+            tabIndex={0}
+            onClick={handleBackToLogin}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') handleBackToLogin();
+            }}
+            className="back-to-login-link"
+          >
+            Back to Login
+          </span>
+        </p>
+      </div>
+
+      <ToastContainer position="top-center" autoClose={3000} />
+    </>
+  );
+};
+
+export default ForgotPasswordForm;

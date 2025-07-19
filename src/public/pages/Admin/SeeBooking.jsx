@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../../../css/SeeBooking.css';
 
 const SeeBooking = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [deletingId, setDeletingId] = useState(null);
 
   useEffect(() => {
@@ -18,9 +19,8 @@ const SeeBooking = () => {
       if (!res.ok) throw new Error('Failed to fetch bookings');
       const data = await res.json();
       setBookings(data.bookings || data);
-      setError(null);
     } catch (err) {
-      setError(err.message);
+      toast.error(err.message || 'Error loading bookings');
     } finally {
       setLoading(false);
     }
@@ -39,16 +39,15 @@ const SeeBooking = () => {
         throw new Error(errData.message || 'Failed to delete booking');
       }
       setBookings((prev) => prev.filter((b) => b.booking_id !== booking_id));
-      setError(null);
+      toast.success('Booking deleted successfully');
     } catch (err) {
-      setError(err.message);
+      toast.error(err.message || 'Delete failed');
     } finally {
       setDeletingId(null);
     }
   };
 
   if (loading) return <div className="seebooking-loading">Loading bookings...</div>;
-  if (error) return <div className="seebooking-error">{error}</div>;
   if (bookings.length === 0) return <div className="seebooking-no-bookings">No bookings found.</div>;
 
   return (
@@ -88,6 +87,8 @@ const SeeBooking = () => {
           ))}
         </tbody>
       </table>
+
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

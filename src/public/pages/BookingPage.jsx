@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../../css/BookingPage.css';
 
 const BookingPage = () => {
   const navigate = useNavigate();
   const email = localStorage.getItem('email');
-  const userId = localStorage.getItem('userId'); // from login localStorage
+  const userId = localStorage.getItem('userId');
 
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -24,13 +26,15 @@ const BookingPage = () => {
       try {
         const res = await fetch(`http://localhost:5000/api/bookings/user/${userId}`);
         if (!res.ok) throw new Error('Failed to fetch bookings');
-
         const data = await res.json();
         if (isMounted) {
           setBookings(data.bookings ?? data);
         }
       } catch (err) {
-        if (isMounted) setError(err.message);
+        if (isMounted) {
+          setError(err.message);
+          toast.error(`Error: ${err.message}`);
+        }
       } finally {
         if (isMounted) setLoading(false);
       }
@@ -39,7 +43,7 @@ const BookingPage = () => {
     fetchBookings();
 
     return () => {
-      isMounted = false; // cleanup flag to prevent setting state after unmount
+      isMounted = false;
     };
   }, [email, userId, navigate]);
 
@@ -55,8 +59,9 @@ const BookingPage = () => {
       if (!res.ok) throw new Error('Failed to cancel booking');
 
       setBookings((prev) => prev.filter((b) => b.booking_id !== bookingId));
+      toast.success('Booking cancelled successfully');
     } catch (err) {
-      alert(err.message);
+      toast.error(`Cancel failed: ${err.message}`);
     } finally {
       setCancellingId(null);
     }
@@ -95,6 +100,7 @@ const BookingPage = () => {
       <div className="booking-page">
         <h2 className="booking-title">No Bookings Found</h2>
         <p>You have not made any bookings yet.</p>
+        <ToastContainer position="top-right" autoClose={3000} />
       </div>
     );
   }
@@ -127,6 +133,7 @@ const BookingPage = () => {
           </div>
         ))}
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

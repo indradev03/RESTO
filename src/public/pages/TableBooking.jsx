@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../css/TableBooking.css";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const TableBooking = () => {
   const navigate = useNavigate();
 
@@ -30,6 +33,7 @@ const TableBooking = () => {
         setTables(data.tables ?? data); // Flexible for response shape
       } catch (err) {
         setError(err.message || "Unknown error");
+        toast.error(err.message || "Unknown error");
       } finally {
         setLoading(false);
       }
@@ -50,6 +54,7 @@ const TableBooking = () => {
       setSelectedTable(data);
     } catch (err) {
       setDetailError(err.message || "Unknown error");
+      toast.error(err.message || "Unknown error");
     } finally {
       setDetailLoading(false);
     }
@@ -58,8 +63,10 @@ const TableBooking = () => {
   const handleBookNow = (table) => {
     if (table.status !== "Available") return;
     if (isLoggedIn) {
+      toast.success(`Booking table ${table.name || table.table_id}...`);
       navigate(`/book/${table.table_id}`);
     } else {
+      toast.info("Please log in to book a table.");
       navigate("/auth/login");
     }
   };
@@ -200,6 +207,8 @@ const TableBooking = () => {
           </div>
         </div>
       )}
+
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };
