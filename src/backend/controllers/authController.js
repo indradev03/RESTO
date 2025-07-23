@@ -5,7 +5,6 @@ import pool from '../database/db.js';
 
 const CLIENT_URL = process.env.CLIENT_URL;
 
-// Nodemailer transporter config (Gmail example)
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -14,20 +13,41 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// Password regex: min 6 chars, at least 1 letter, 1 number, and 1 special character
+const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_]).{6,}$/;
+
 export const signup = async (req, res) => {
   const { name, email, password, contact, address, role = 'user' } = req.body;
 
   try {
     if (!name.trim()) return res.status(400).json({ error: 'Name is required' });
     if (!email.trim()) return res.status(400).json({ error: 'Email is required' });
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) return res.status(400).json({ error: 'Invalid email format' });
-    if (!password || password.length < 6) return res.status(400).json({ error: 'Password must be at least 6 characters' });
+
+    const domain = email.split('@')[1].toLowerCase();
+    if (domain !== 'gmail.com') {
+      return res.status(400).json({ error: 'Only gmail.com email addresses are supported' });
+    }
+
+    if (!passwordRegex.test(password)) {
+      return res.status(400).json({
+        error: 'Password must be at least 6 characters and include at least one letter, one number, and one special character',
+      });
+    }
+
+    if (contact && !/^\d{10}$/.test(contact)) {
+      return res.status(400).json({ error: 'Contact number must be exactly 10 digits' });
+    }
 
     const existingUser = await pool.query('SELECT 1 FROM resto_users WHERE email = $1', [email]);
-    if (existingUser.rows.length > 0) return res.status(409).json({ error: 'Email is already registered' });
+    if (existingUser.rows.length > 0) {
+      return res.status(409).json({ error: 'Email is already registered' });
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+
     const result = await pool.query(
       `INSERT INTO resto_users (name, email, password, role, contact, address)
        VALUES ($1, $2, $3, $4, $5, $6)
@@ -60,8 +80,15 @@ export const login = async (req, res) => {
 
   try {
     if (!email.trim()) return res.status(400).json({ error: 'Email is required' });
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) return res.status(400).json({ error: 'Invalid email format' });
+
+    const domain = email.split('@')[1].toLowerCase();
+    if (domain !== 'gmail.com') {
+      return res.status(400).json({ error: 'Only gmail.com email addresses are supported' });
+    }
+
     if (!password) return res.status(400).json({ error: 'Password is required' });
 
     const result = await pool.query('SELECT * FROM resto_users WHERE email = $1', [email]);
@@ -105,7 +132,6 @@ export const forgotPassword = async (req, res) => {
       [email]
     );
 
-    // Always respond the same to prevent email enumeration
     const genericResponse = {
       message: 'If that email is registered, a reset link was sent.',
     };
@@ -123,7 +149,6 @@ export const forgotPassword = async (req, res) => {
 
     const encodedToken = encodeURIComponent(token);
     const resetUrl = `${CLIENT_URL}/auth/reset-password/${encodedToken}`;
-
 
     const mailOptions = {
       from: `"Resto Support" <${process.env.EMAIL_USERNAME}>`,
@@ -153,8 +178,10 @@ export const forgotPassword = async (req, res) => {
 export const resetPassword = async (req, res) => {
   const { token, password } = req.body;
 
-  if (!token || !password || password.length < 6) {
-    return res.status(400).json({ error: 'Token and password (min 6 chars) are required' });
+  if (!token || !passwordRegex.test(password)) {
+    return res.status(400).json({
+      error: 'Password must be at least 6 characters and include at least one letter, one number, and one special character',
+    });
   }
 
   try {
