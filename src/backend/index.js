@@ -9,7 +9,7 @@ import userRoutes from './routes/user.js';
 import adminRoutes from './routes/adminRoute.js';
 import tableRoutes from './routes/table/tableRoute.js';
 import productRoutes from './routes/products/productRoute.js';
-import bookingRoutes from './routes/bookings/bookingRoute.js';  // <-- Added booking routes import
+import bookingRoutes from './routes/bookings/bookingRoute.js'; 
 
 dotenv.config();
 

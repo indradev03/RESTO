@@ -1,14 +1,14 @@
 {
   "name": "resto-app",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
   "type": "module",
   "main": "index.js",
   "scripts": {
     "dev:backend": "nodemon src/backend/index.js",
     "dev:frontend": "vite --port 5173",
     "start": "node src/backend/index.js",
-    "test": "echo \"No tests specified\" && exit 0",
+    "test": "cross-env NODE_ENV=test node --no-warnings --experimental-vm-modules node_modules/jest/bin/jest.js",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "build": "vite build",
@@ -16,19 +16,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "bcryptjs": "^3.0.2",
+    "bcryptjs": "^2.4.3",
     "cookie": "^1.0.2",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "express-validator": "^7.2.1",
-    "install": "^0.13.0",
-    "jest": "^30.0.4",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "multer": "^2.0.1",
     "nodemailer": "^7.0.4",
-    "npm": "^11.4.2",
     "pg": "^8.16.2",
     "prop-types": "^15.8.1",
     "react": "^19.1.0",
@@ -46,12 +43,15 @@
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@vitejs/plugin-react": "^4.4.1",
+    "cross-env": "^7.0.3",
     "eslint": "^9.25.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
+    "jest": "^29.7.0",
     "nodemon": "^3.1.10",
     "prettier": "^3.0.0",
+    "supertest": "^6.3.3",
     "vite": "^6.3.5"
   }
 }
