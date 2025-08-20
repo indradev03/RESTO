@@ -86,9 +86,9 @@ EMAIL_PASSWORD=your-app-password
 CLIENT_URL=http://localhost:5173
 ```
 
-### Frontend Setup
+###  Setup
 ```bash
-# Install dependencies
+# Install all dependencies
 npm install
 
 # Start frontend development server
