@@ -40,6 +40,7 @@ Built with:
 ---
 
 ## 📂 Project Structure  
+```
 src/
 │── assets/ # Static assets
 │── backend/ # Backend code
@@ -64,12 +65,13 @@ src/
 ├── vite.config.js # Vite configuration
 └── README.md # Project documentation
 
-
+```
 ---
 
 ## ⚙️ Environment Setup
 
 ### Backend (.env)
+```
 DB_USER=postgres
 DB_HOST=localhost
 DB_NAME=resto
@@ -82,7 +84,7 @@ EMAIL_USERNAME=your-email@gmail.com
 
 EMAIL_PASSWORD=your-app-password
 CLIENT_URL=http://localhost:5173
-
+```
 
 ### Frontend Setup
 ```bash
