@@ -184,3 +184,5 @@ npm start
 | order\_id      | INTEGER            | FK → orders.id          |
 | created\_at    | TIMESTAMP          | Default NOW()           |
 
+## Live View
+![Restaurant Logo](assets/RestoLogo.png)
