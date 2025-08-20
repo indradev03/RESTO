@@ -185,4 +185,11 @@ npm start
 | created\_at    | TIMESTAMP          | Default NOW()           |
 
 ## Screenshots
-| ![Restaurant Logo](src/assets/RestoLogo.png) | ![Homepage/User Dashboard](src/assets/homepage.png) | ![Menu](src/assets/menupage.png) | ![Tables](src/assets/tablespage.png) | ![Profile](src/assets/profilepage.png)
+![Restaurant Logo](src/assets/RestoLogo.png) 
+![Homepage/User Dashboard](src/assets/homepage.png) 
+![Menu](src/assets/menupage.png) 
+![Tables](src/assets/tablespage.png) 
+![Profile](src/assets/profilepage.png)
+
+## Video Demo link
+Check out the demo video: [Watch on YouTube](https://youtu.be/7GpVGYPjNtk?si=hRCpPw6amP84KPPL)
