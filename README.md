@@ -167,23 +167,6 @@ npm start
 | message     | TEXT               | Activity description                  |
 | created\_at | TIMESTAMP          | Default NOW()                         |
 
-### 7. orders – Customer orders
-| Column      | Type               | Description                    |
-| ----------- | ------------------ | ------------------------------ |
-| id          | SERIAL PRIMARY KEY | Order ID                       |
-| user\_id    | INTEGER            | FK → resto\_users.user\_id     |
-| booking\_id | INTEGER            | Nullable FK → bookings.id      |
-| total       | NUMERIC            | Total order amount             |
-| created\_at | TIMESTAMP          | Default NOW()                  |
-| updated\_at | TIMESTAMP          | Default NOW()                  |
-
-### 9. order_items – Items inside an order
-| Column         | Type               | Description             |
-| -------------- | ------------------ | ----------------------- |
-| id             | SERIAL PRIMARY KEY | Order item ID           |
-| order\_id      | INTEGER            | FK → orders.id          |
-| created\_at    | TIMESTAMP          | Default NOW()           |
-
 ## Screenshots
 ![Restaurant Logo](src/assets/RestoLogo.png) 
 ![Homepage/User Dashboard](src/assets/homepage.png) 
